@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.ifixit.dev",
+      "sha256_cert_fingerprints": [
+        "3b:6e:07:41:05:5d:ea:d9:4a:00:c0:f4:f4:25:3c:1a:94:a1:83:b1:b2:75:e5:b3:ed:08:42:95:ef:80:6f:6d"
+      ]
+    }
+  }
+]

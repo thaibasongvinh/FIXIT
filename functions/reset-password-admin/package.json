@@ -1,0 +1,9 @@
+{
+  "name": "reset-password-admin",
+  "version": "1.0.0",
+  "description": "Appwrite function to reset password using OTP with Admin privileges",
+  "main": "index.js",
+  "dependencies": {
+    "node-appwrite": "^14.0.0"
+  }
+}

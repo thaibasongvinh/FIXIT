@@ -1,0 +1,613 @@
+Folder PATH listing for volume DATA
+Volume serial number is 000001F3 14B9:4B51
+D:\DOCUMENTS\MOBILEAPP\FLUTTER\IFIXIT\LIB
++---app
+|       app_setup_wrapper.dart
+|       bootstrap.dart
+|       fixit_app.dart
+|       
++---core
+|   +---analytics
+|   |       analytics_service.dart
+|   |       analytics_service.g.dart
+|   |       
+|   +---config
+|   |       appwrite_provider.dart
+|   |       appwrite_provider.g.dart
+|   |       app_environment_provider.dart
+|   |       app_flavor.dart
+|   |       dio_provider.dart
+|   |       flavor_config.dart
+|   |       locale_provider.dart
+|   |       locale_provider.g.dart
+|   |       
+|   +---constants
+|   |       app_constants.dart
+|   |       
+|   +---db
+|   |       database_service.dart
+|   |       database_service.g.dart
+|   |       local_guide.dart
+|   |       local_guide.g.dart
+|   |       
+|   +---entrypoints
+|   |       main_dev.dart
+|   |       main_prod.dart
+|   |       
+|   +---logging
+|   |       log_service.dart
+|   |       log_service.g.dart
+|   |       
+|   +---presentation
+|   |   \---widgets
+|   |           app_background.dart
+|   |           
+|   +---router
+|   |       app_navigator_observer.dart
+|   |       app_router.dart
+|   |       app_router.g.dart
+|   |       auth_redirect.dart
+|   |       
+|   +---services
+|   |       app_guard_service.dart
+|   |       app_guard_service.g.dart
+|   |       connectivity_service.dart
+|   |       connectivity_service.g.dart
+|   |       deep_link_service.dart
+|   |       feedback_service.dart
+|   |       feedback_service.g.dart
+|   |       image_service.dart
+|   |       legacy_databases.dart
+|   |       overlay_service.dart
+|   |       overlay_service.g.dart
+|   |       remote_config_service.dart
+|   |       resilience_service.dart
+|   |       resilience_service.g.dart
+|   |       secure_storage_service.dart
+|   |       secure_storage_service.g.dart
+|   |       security_service.dart
+|   |       security_service.g.dart
+|   |       
+|   +---theme
+|   |       app_colors.dart
+|   |       app_theme.dart
+|   |       
+|   \---utils
+|           appwrite_utils.dart
+|           service_translation_helper.dart
+|           
++---features
+|   +---admin
+|   |   +---data
+|   |   |       appwrite_admin_repository.dart
+|   |   |       
+|   |   +---domain
+|   |   |   \---models
+|   |   |           admin_models.dart
+|   |   |           
+|   |   \---presentation
+|   |       +---providers
+|   |       |       admin_provider.dart
+|   |       |       
+|   |       \---screens
+|   |           +---approvals
+|   |           |       admin_application_detail_screen.dart
+|   |           |       admin_approvals_screen.dart
+|   |           |       
+|   |           +---audit
+|   |           |       admin_audit_logs_screen.dart
+|   |           |       
+|   |           +---banners
+|   |           |       admin_banners_screen.dart
+|   |           |       
+|   |           +---bookings
+|   |           |       admin_bookings_screen.dart
+|   |           |       
+|   |           +---broadcast
+|   |           |       admin_broadcast_history_screen.dart
+|   |           |       admin_broadcast_screen.dart
+|   |           |       
+|   |           +---config
+|   |           |       admin_config_screen.dart
+|   |           |       
+|   |           +---coupons
+|   |           |       admin_coupons_screen.dart
+|   |           |       
+|   |           +---dashboard
+|   |           |   |   admin_dashboard_screen.dart
+|   |           |   |   
+|   |           |   \---widgets
+|   |           |           admin_settings_drawer.dart
+|   |           |           
+|   |           +---finance
+|   |           |       admin_finance_screen.dart
+|   |           |       
+|   |           +---map
+|   |           |       admin_live_tech_map_screen.dart
+|   |           |       
+|   |           +---products
+|   |           |       admin_products_screen.dart
+|   |           |       
+|   |           +---reports
+|   |           |       admin_reports_screen.dart
+|   |           |       
+|   |           +---reviews
+|   |           |       admin_reviews_screen.dart
+|   |           |       
+|   |           +---roles
+|   |           |       admin_staff_roles_screen.dart
+|   |           |       
+|   |           +---services
+|   |           |       admin_guide_steps_screen.dart
+|   |           |       admin_services_screen.dart
+|   |           |       admin_service_issues_screen.dart
+|   |           |       
+|   |           \---users
+|   |                   admin_users_screen.dart
+|   |                   
+|   +---auth
+|   |   +---data
+|   |   |       appwrite_auth_repository_impl.dart
+|   |   |       
+|   |   +---domain
+|   |   |       auth_repository.dart
+|   |   |       
+|   |   \---presentation
+|   |       +---providers
+|   |       |       auth_provider.dart
+|   |       |       auth_provider.g.dart
+|   |       |       login_success_provider.dart
+|   |       |       login_success_provider.g.dart
+|   |       |       
+|   |       +---screens
+|   |       |   +---forgot_password
+|   |       |   |       forgot_password_email_screen.dart
+|   |       |   |       forgot_password_method_screen.dart
+|   |       |   |       forgot_password_phone_screen.dart
+|   |       |   |       reset_password_screen.dart
+|   |       |   |       
+|   |       |   +---login
+|   |       |   |       login_screen.dart
+|   |       |   |       
+|   |       |   +---register
+|   |       |   |       register_screen.dart
+|   |       |   |       
+|   |       |   +---setup
+|   |       |   |       account_deactivated_screen.dart
+|   |       |   |       pending_approval_screen.dart
+|   |       |   |       role_selection_screen.dart
+|   |       |   |       technician_onboarding_screen.dart
+|   |       |   |       
+|   |       |   +---splash
+|   |       |   |       splash_screen.dart
+|   |       |   |       
+|   |       |   \---verification
+|   |       |           phone_verification_screen.dart
+|   |       |           verify_email_screen.dart
+|   |       |           verify_phone_screen.dart
+|   |       |           
+|   |       \---widgets
+|   |           |   figma_auth_widgets.dart
+|   |           |   
+|   |           \---components
+|   |                   auth_button.dart
+|   |                   auth_header.dart
+|   |                   auth_text_field.dart
+|   |                   onboarding_widgets.dart
+|   |                   pin_input.dart
+|   |                   
+|   +---booking
+|   |   +---data
+|   |   |       appwrite_booking_repository_impl.dart
+|   |   |       
+|   |   +---domain
+|   |   |   |   booking_repository.dart
+|   |   |   |   
+|   |   |   \---models
+|   |   |           booking_model.dart
+|   |   |           booking_model.freezed.dart
+|   |   |           booking_model.g.dart
+|   |   |           review_model.dart
+|   |   |           review_model.freezed.dart
+|   |   |           review_model.g.dart
+|   |   |           
+|   |   \---presentation
+|   |       +---providers
+|   |       |       booking_provider.dart
+|   |       |       booking_provider.g.dart
+|   |       |       
+|   |       +---screens
+|   |       |   +---create
+|   |       |   |       booking_success_screen.dart
+|   |       |   |       create_booking_screen.dart
+|   |       |   |       
+|   |       |   +---details
+|   |       |   |       booking_detail_screen.dart
+|   |       |   |       
+|   |       |   \---main
+|   |       |           my_bookings_screen.dart
+|   |       |           
+|   |       \---widgets
+|   |               booking_card.dart
+|   |               
+|   +---chat
+|   |   +---domain
+|   |   |   \---models
+|   |   |           chat_room_model.dart
+|   |   |           chat_room_model.freezed.dart
+|   |   |           chat_room_model.g.dart
+|   |   |           message_model.dart
+|   |   |           message_model.freezed.dart
+|   |   |           message_model.g.dart
+|   |   |           
+|   |   \---presentation
+|   |       +---providers
+|   |       |       chat_provider.dart
+|   |       |       chat_provider.g.dart
+|   |       |       
+|   |       +---screens
+|   |       |       chat_list_screen.dart
+|   |       |       chat_screen.dart
+|   |       |       
+|   |       \---widgets
+|   |           |   chat_widgets.dart
+|   |           |   
+|   |           \---components
+|   |                   message_bubble.dart
+|   |                   
+|   +---guides
+|   |   +---data
+|   |   |       appwrite_guide_repository_impl.dart
+|   |   |       
+|   |   +---domain
+|   |   |   |   guide_metadata.dart
+|   |   |   |   guide_repository.dart
+|   |   |   |   
+|   |   |   \---models
+|   |   |           guide_model.dart
+|   |   |           guide_model.freezed.dart
+|   |   |           guide_model.g.dart
+|   |   |           step_model.dart
+|   |   |           step_model.freezed.dart
+|   |   |           step_model.g.dart
+|   |   |           tool_model.dart
+|   |   |           tool_model.freezed.dart
+|   |   |           tool_model.g.dart
+|   |   |           
+|   |   \---presentation
+|   |       +---providers
+|   |       |       guide_provider.dart
+|   |       |       guide_provider.g.dart
+|   |       |       
+|   |       +---screens
+|   |       |       add_step_screen.dart
+|   |       |       create_guide_screen.dart
+|   |       |       guides_screen.dart
+|   |       |       guide_detail_screen.dart
+|   |       |       guide_reader_screen.dart
+|   |       |       
+|   |       \---widgets
+|   |               category_filter.dart
+|   |               guide_card.dart
+|   |               guide_rating_sheet.dart
+|   |               guide_video_player.dart
+|   |               
+|   +---home
+|   |   +---data
+|   |   |   +---data_sources
+|   |   |   |       home_remote_data_source.dart
+|   |   |   |       
+|   |   |   +---models
+|   |   |   \---repositories
+|   |   |           call_repository.dart
+|   |   |           home_repository_impl.dart
+|   |   |           
+|   |   +---domain
+|   |   |   +---entities
+|   |   |   |       banner_model.dart
+|   |   |   |       home_category.dart
+|   |   |   |       
+|   |   |   +---models
+|   |   |   |       call_model.dart
+|   |   |   |       call_model.freezed.dart
+|   |   |   |       call_model.g.dart
+|   |   |   |       
+|   |   |   +---repositories
+|   |   |   |       home_repository.dart
+|   |   |   |       
+|   |   |   \---use_cases
+|   |   |           get_home_data_use_case.dart
+|   |   |           
+|   |   \---presentation
+|   |       +---providers
+|   |       |       banner_provider.dart
+|   |       |       banner_provider.g.dart
+|   |       |       call_provider.dart
+|   |       |       home_provider.dart
+|   |       |       home_provider.g.dart
+|   |       |       services_provider.dart
+|   |       |       services_provider.g.dart
+|   |       |       
+|   |       +---screens
+|   |       |   +---calls
+|   |       |   |       voice_call_screen.dart
+|   |       |   |       
+|   |       |   +---explore
+|   |       |   |       all_providers_screen.dart
+|   |       |   |       all_services_screen.dart
+|   |       |   |       category_providers_screen.dart
+|   |       |   |       category_technicians_screen.dart
+|   |       |   |       
+|   |       |   \---main
+|   |       |           home_screen.dart
+|   |       |           
+|   |       \---widgets
+|   |           |   home_widgets.dart
+|   |           |   user_settings_drawer.dart
+|   |           |   
+|   |           \---components
+|   |                   home_promo_banner.dart
+|   |                   home_search_bar.dart
+|   |                   home_section_header.dart
+|   |                   popular_services_rail.dart
+|   |                   provider_preview_rail.dart
+|   |                   shimmer_loading.dart
+|   |                   
+|   +---main
+|   |   \---presentation
+|   |       +---providers
+|   |       |       ui_state_provider.dart
+|   |       |       ui_state_provider.g.dart
+|   |       |       
+|   |       \---screens
+|   |               main_shell.dart
+|   |               
+|   +---marketplace
+|   |   +---data
+|   |   |   \---repositories
+|   |   |           technician_repository_impl.dart
+|   |   |           
+|   |   +---domain
+|   |   |   |   technician_repository.dart
+|   |   |   |   
+|   |   |   \---models
+|   |   |           product_model.dart
+|   |   |           service_issue_model.dart
+|   |   |           technician_model.dart
+|   |   |           technician_model.freezed.dart
+|   |   |           technician_model.g.dart
+|   |   |           
+|   |   +---home
+|   |   |   \---presentation
+|   |   |       \---widgets
+|   |   |           \---components
+|   |   |                   shimmer_loading.dart
+|   |   |                   
+|   |   \---presentation
+|   |       +---providers
+|   |       |       favorites_provider.dart
+|   |       |       favorites_provider.g.dart
+|   |       |       service_flow_provider.dart
+|   |       |       service_flow_provider.g.dart
+|   |       |       technician_provider.dart
+|   |       |       technician_provider.g.dart
+|   |       |       
+|   |       +---screens
+|   |       |       booking_summary_screen.dart
+|   |       |       city_search_screen.dart
+|   |       |       gallery_viewer_screen.dart
+|   |       |       location_access_screen.dart
+|   |       |       location_details_screen.dart
+|   |       |       schedule_selection_screen.dart
+|   |       |       selected_service_screen.dart
+|   |       |       service_issues_screen.dart
+|   |       |       service_selection_screen.dart
+|   |       |       service_solution_screen.dart
+|   |       |       technician_map_screen.dart
+|   |       |       technician_profile_screen.dart
+|   |       |       
+|   |       \---widgets
+|   |               technician_card.dart
+|   |               technician_card_skeleton.dart
+|   |               technician_map_view.dart
+|   |               
+|   +---notifications
+|   |   +---data
+|   |   |       notification_repository.dart
+|   |   |       
+|   |   +---domain
+|   |   |       notification_model.dart
+|   |   |       
+|   |   \---presentation
+|   |       +---providers
+|   |       |       notification_provider.dart
+|   |       |       
+|   |       \---screens
+|   |               notifications_screen.dart
+|   |               
+|   +---onboarding
+|   |   +---data
+|   |   |   \---repositories
+|   |   |           onboarding_repository.g.dart
+|   |   |           
+|   |   +---domain
+|   |   |   \---models
+|   |   |           onboarding_model.dart
+|   |   |           
+|   |   \---presentation
+|   |       +---providers
+|   |       |       onboarding_provider.dart
+|   |       |       onboarding_provider.g.dart
+|   |       |       
+|   |       \---screens
+|   |               onboarding_screen.dart
+|   |               
+|   +---payment
+|   |   \---presentation
+|   |       \---screens
+|   |               add_payment_card_screen.dart
+|   |               payment_method_screen.dart
+|   |               
+|   +---profile
+|   |   +---data
+|   |   |       verification_repository.dart
+|   |   |       verification_repository.g.dart
+|   |   |       
+|   |   \---presentation
+|   |       +---providers
+|   |       |       current_technician_stats_provider.dart
+|   |       |       current_technician_stats_provider.g.dart
+|   |       |       profile_mode_provider.dart
+|   |       |       profile_mode_provider.g.dart
+|   |       |       verification_provider.dart
+|   |       |       verification_provider.g.dart
+|   |       |       
+|   |       +---screens
+|   |       |   +---edit
+|   |       |   |       edit_profile_screen.dart
+|   |       |   |       
+|   |       |   +---main
+|   |       |   |       buying_mode_profile.dart
+|   |       |   |       profile_screen.dart
+|   |       |   |       selling_mode_profile.dart
+|   |       |   |       
+|   |       |   \---settings
+|   |       |           help_support_screen.dart
+|   |       |           notifications_screen.dart
+|   |       |           profession_screen.dart
+|   |       |           upgrade_screen.dart
+|   |       |           verification_screen.dart
+|   |       |           
+|   |       \---widgets
+|   |           |   profile_widgets.dart
+|   |           |   
+|   |           \---components
+|   |               +---avatar
+|   |               |       profile_avatar.dart
+|   |               |       
+|   |               +---menu
+|   |               |       logout_dialog.dart
+|   |               |       mode_toggle_button.dart
+|   |               |       profile_menu_tile.dart
+|   |               |       settings_dialogs.dart
+|   |               |       unsaved_changes_dialog.dart
+|   |               |       user_info_button.dart
+|   |               |       
+|   |               +---shimmer
+|   |               |       profile_shimmer.dart
+|   |               |       
+|   |               \---stats
+|   |                       technician_stats_card.dart
+|   |                       
+|   +---search
+|   |   +---data
+|   |   |       phase5_search_repository_impl.dart
+|   |   |       
+|   |   +---domain
+|   |   |   |   search_repository.dart
+|   |   |   |   
+|   |   |   \---models
+|   |   |           phase5_search_result.dart
+|   |   |           
+|   |   \---presentation
+|   |       +---providers
+|   |       |       filter_provider.dart
+|   |       |       phase5_search_provider.dart
+|   |       |       search_history_provider.dart
+|   |       |       search_history_provider.g.dart
+|   |       |       
+|   |       \---screens
+|   |           +---filter
+|   |           |       search_filter_screen.dart
+|   |           |       
+|   |           \---results
+|   |                   search_results_screen.dart
+|   |                   
+|   +---settings
+|   |   +---data
+|   |   |       settings_repository.dart
+|   |   |       settings_repository.g.dart
+|   |   |       
+|   |   +---domain
+|   |   |       user_settings.dart
+|   |   |       
+|   |   \---presentation
+|   \---wallet
+|       +---data
+|       |   \---repositories
+|       |           appwrite_wallet_repository_impl.dart
+|       |           
+|       +---domain
+|       |   |   wallet_repository.dart
+|       |   |   
+|       |   \---models
+|       |           saved_payment_method.dart
+|       |           wallet_model.dart
+|       |           wallet_model.freezed.dart
+|       |           wallet_model.g.dart
+|       |           
+|       \---presentation
+|           +---providers
+|           |       wallet_provider.dart
+|           |       wallet_provider.g.dart
+|           |       
+|           +---screens
+|           |       wallet_screen.dart
+|           |       
+|           \---widgets
+|               |   wallet_widgets.dart
+|               |   
+|               \---components
+|                       payment_method_tile.dart
+|                       
++---l10n
+|       app_en.arb
+|       app_localizations.dart
+|       app_localizations_en.dart
+|       app_localizations_vi.dart
+|       app_vi.arb
+|       
+\---shared
+    +---design_system
+    |   \---atoms
+    |           app_text.dart
+    |           
+    +---models
+    |       user_model.dart
+    |       user_model.freezed.dart
+    |       user_model.g.dart
+    |       
+    +---services
+    |       image_service.dart
+    |       notification_service.dart
+    |       
+    +---utils
+    |       export_utils.dart
+    |       image_utils.dart
+    |       permission_utils.dart
+    |       snackbar_utils.dart
+    |       vietnam_address_provider.dart
+    |       
+    \---widgets
+        |   app_widgets.dart
+        |   
+        +---buttons
+        |       app_primary_button.dart
+        |       social_login_button.dart
+        |       
+        +---debug
+        |       debug_menu.dart
+        |       
+        +---error
+        |       global_error_screen.dart
+        |       
+        +---inputs
+        |       app_text_field.dart
+        |       otp_input.dart
+        |       
+        +---loading
+        |       app_skeleton.dart
+        |       
+        \---typography
+                section_title.dart
+                

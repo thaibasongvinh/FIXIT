@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FixIt</string>
+    <!-- Thay dãy số bên dưới bằng App ID của bạn (Lấy ở trang Meta Developers) -->
+    <string name="facebook_app_id">1566964262097949</string>
+    <!-- Thay dãy số bên dưới bằng App ID của bạn nhưng giữ nguyên chữ fb ở đầu -->
+    <string name="fb_login_protocol_scheme">fb1566964262097949</string>
+    <!-- Lấy Client Token ở trang Meta Developers (Settings -> Advanced) -->
+    <string name="facebook_client_token">e0e5f619f53e7affdf9818ab044fb64d</string>
+</resources>

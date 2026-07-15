@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+
+        <!-- On Android 12+, we match the START color of your gradient (Light Blue/White)
+             to make the transition to the Flutter gradient smoother. -->
+        <item name="android:windowSplashScreenBackground">#F8FCFF</item>
+
+        <!-- We use a transparent icon for the circular splash to avoid the "double logo"
+             clipping look, letting the windowBackground handle the main branding. -->
+        <item name="android:windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+    </style>
+
+    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">?android:colorBackground</item>
+    </style>
+</resources>

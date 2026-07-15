@@ -1,0 +1,48 @@
+source 'https://github.com/CocoaPods/Specs.git'
+# Appwrite and the current Flutter plugin set are supported on iOS 13+.
+platform :ios, '13.0'
+
+# CocoaPods analytics sends network stats synchronously affecting build performance.
+ENV['COCOAPODS_DISABLE_STATS'] = '1'
+
+project 'Runner', {
+  'Debug' => :debug,
+  'Profile' => :release,
+  'Release' => :release,
+}
+
+def flutter_install_all_ios_pods(ios_application_path = nil)
+  native_add_pods_path = ios_application_path || '.'
+  pod 'Flutter', :path => File.join(native_add_pods_path, 'Flutter')
+  pod 'FlutterTest', :path => File.join(native_add_pods_path, 'Flutter'), :configurations => ['Debug']
+
+  # Flutter Plugins
+  File.open(File.join(native_add_pods_path, '.flutter-plugins-dependencies'), 'r') do |file|
+    object = JSON.parse(file.read)
+    object['plugins']['ios'].each do |plugin|
+      pod plugin['name'], :path => plugin['path']
+    end
+  end
+rescue => e
+  STDERR.puts "Error reading .flutter-plugins-dependencies: #{e.message}"
+end
+
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  target 'RunnerTests' do
+    inherit! :search_paths
+  end
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+    target.build_configurations.each do |config|
+      # Cấu hình target iOS 13.0 cho tất cả các pods
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+    end
+  end
+end

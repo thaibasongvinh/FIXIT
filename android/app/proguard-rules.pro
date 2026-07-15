@@ -1,0 +1,1 @@
+-keep class com.lin_dev.flutter_web_auth_2.** { *; }

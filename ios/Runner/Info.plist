@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>FixIt</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>FixIt</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(FLUTTER_BUILD_NAME)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+
+	<!-- Background fetch/notifications -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+
+	<!-- Camera -->
+	<key>NSCameraUsageDescription</key>
+	<string>Cần camera để chụp ảnh thiết bị hỏng</string>
+
+	<!-- Photos -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Cần truy cập ảnh để tải lên hướng dẫn sửa chữa</string>
+
+	<!-- Location -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Cần vị trí để tìm thợ sửa gần bạn nhất</string>
+
+	<!-- Microphone (cho video call sau) -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Cần mic để tư vấn video với thợ sửa chữa</string>
+
+	<!-- URL schemes -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.641537105703-fsc1g709l69m14mehjfv0bepi2k35u5t</string>
+				<string>com.googleusercontent.apps.19206662371-ivpou706ou6logvskmdisbhrnnoss8c6</string>
+				<string>com.googleusercontent.apps.693982282907-fa9er543iaqf6a0mtdo1erq4hfp5gat9</string>
+				<string>appwrite-callback-6a145b8d001aa82f4dd5</string>
+				<string>fb1566964262097949</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>app.fixit.links</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fixit</string>
+			</array>
+		</dict>
+	</array>
+
+	<key>FacebookAppID</key>
+	<string>1566964262097949</string>
+	<key>FacebookClientToken</key>
+	<string>e0e5f619f53e7affdf9818ab044fb64d</string>
+	<key>FacebookDisplayName</key>
+	<string>fixit Vietnam</string>
+
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
+</dict>
+</plist>
