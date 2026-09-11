@@ -57,3 +57,7 @@ app.*.map.json
 .artifacts/
 .agents/
 .junie/
+docx_temp/
+so_extract/
+authUser.email.toLowerCase()
+SYSTEM_BOUNDARY_DIAGRAM-1.pdf

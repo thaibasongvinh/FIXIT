@@ -1,7 +1,0 @@
-- [x] Fix Gradle build error in `settings.gradle.kts`
-- [x] Run the Flutter app on emulator
-- [x] Verify app launch
-- [x] Fix IDE Run Configuration for `main_dev.dart`
-- [x] Fix IDE Run Configuration for `main_prod.dart`
-- [x] Synchronize Module name in `.idea/modules.xml`
-- [x] Update Run Configurations to use `fixit` module
