@@ -12,6 +12,15 @@ import 'package:fixit/core/router/app_router.dart';
 import 'package:fixit/l10n/app_localizations.dart';
 import 'package:fixit/core/presentation/widgets/app_background.dart';
 
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
+import 'package:fixit/core/config/locale_provider.dart';
+import 'package:fixit/core/services/translation_provider.dart';
+import '../../../../../shared/widgets/app_bar/auth_top_actions.dart';
+
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
+import 'package:fixit/core/config/locale_provider.dart';
+import 'package:fixit/core/services/translation_provider.dart';
+
 class ForgotPasswordEmailScreen extends ConsumerStatefulWidget {
   const ForgotPasswordEmailScreen({super.key});
 
@@ -105,122 +114,119 @@ class _ForgotPasswordEmailScreenState
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        HapticFeedback.selectionClick();
-                        context.pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new,
-                        color: isDark ? Colors.white : Colors.black87,
-                        size: 22,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        const Gap(20),
-                        _buildLogoBadge(isDark),
-                        const Gap(32),
-                        Text(
-                          l10n.emailVerification,
-                          style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.w900,
-                              color: isDark ? Colors.white : Colors.blueGrey.shade900,
-                              letterSpacing: -1),
-                        ),
-                        const Gap(8),
-                        Text(
-                          l10n.enterEmailToReceiveOTP,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: isDark ? Colors.white.withOpacity(0.6) : Colors.blueGrey.shade600,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        const Gap(40),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(30),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                            child: Container(
-                              padding: const EdgeInsets.all(24),
-                              decoration: BoxDecoration(
-                                color: isDark ? Colors.white.withOpacity(0.08) : Colors.black.withOpacity(0.05),
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                    color: isDark ? Colors.white.withOpacity(0.15) : Colors.black.withOpacity(0.05)),
-                              ),
-                              child: Column(
-                                children: [
-                                  FigmaAuthTextField(
-                                    controller: _emailController,
-                                    label: l10n.emailAddress,
-                                    hint: l10n.emailHint,
-                                    icon: Icons.alternate_email_rounded,
-                                    darkTheme: isDark,
-                                    keyboardType: TextInputType.emailAddress,
-                                    autofillHints: const [AutofillHints.email],
-                                    textInputAction: TextInputAction.done,
-                                    validator: (value) => (value == null ||
-                                            !value.contains('@'))
-                                        ? l10n.enterEmail
-                                        : null,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            AuthTopActions(
+                              showBack: true,
+                              onBack: () {
+                                HapticFeedback.selectionClick();
+                                context.pop();
+                              },
+                            ),
+                            const Spacer(flex: 3),
+                            _buildLogoBadge(isDark),
+                            const Gap(24),
+                            TranslatedText(
+                              l10n.emailVerification,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w900,
+                                  color: isDark ? Colors.white : Colors.blueGrey.shade900,
+                                  letterSpacing: -0.5),
+                            ),
+                            const Gap(8),
+                            TranslatedText(
+                              l10n.enterEmailToReceiveOTP,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: isDark ? Colors.white.withOpacity(0.6) : Colors.blueGrey.shade600,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            const Gap(32),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                                child: Container(
+                                  padding: const EdgeInsets.all(24),
+                                  decoration: BoxDecoration(
+                                    color: isDark ? Colors.white.withOpacity(0.03) : Colors.white.withOpacity(0.4),
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all(
+                                        color: isDark ? Colors.white.withOpacity(0.15) : Colors.white.withOpacity(0.6),
+                                        width: 0.8),
                                   ),
-                                  const Gap(40),
-                                  SizedBox(
-                                    width: double.infinity,
-                                    height: 60,
-                                    child: ElevatedButton(
-                                      onPressed: canSubmit ? _submit : null,
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: canSubmit
-                                            ? (isDark ? Colors.white : Theme.of(context).primaryColor)
-                                            : (isDark ? Colors.white.withOpacity(0.3) : Colors.black12),
-                                        foregroundColor: isDark ? const Color(0xFF0D47A1) : Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16)),
-                                        elevation: canSubmit ? (isDark ? 0 : 8) : 0,
+                                  child: Column(
+                                    children: [
+                                      FigmaAuthTextField(
+                                        controller: _emailController,
+                                        label: l10n.emailAddress,
+                                        hint: l10n.emailHint,
+                                        icon: Icons.alternate_email_rounded,
+                                        darkTheme: isDark,
+                                        keyboardType: TextInputType.emailAddress,
+                                        autofillHints: const [AutofillHints.email],
+                                        textInputAction: TextInputAction.done,
+                                        validator: (value) => (value == null ||
+                                                !value.contains('@'))
+                                            ? l10n.enterEmail
+                                            : null,
                                       ),
-                                      child: isLoading
-                                          ? const CircularProgressIndicator()
-                                          : Text(
-                                              _secondsRemaining > 0
-                                                  ? l10n.waitSeconds(_secondsRemaining)
-                                                  : l10n.sendCode,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w900,
-                                                  fontSize: 16,
-                                                  letterSpacing: 1)),
-                                    ),
+                                      const Gap(32),
+                                      SizedBox(
+                                        width: double.infinity,
+                                        height: 56,
+                                        child: ElevatedButton(
+                                          onPressed: canSubmit ? _submit : null,
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: canSubmit
+                                                ? (isDark ? Colors.white : Theme.of(context).primaryColor)
+                                                : (isDark ? Colors.white.withOpacity(0.3) : Colors.black12),
+                                            foregroundColor: isDark ? const Color(0xFF0D47A1) : Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(16)),
+                                            elevation: canSubmit ? (isDark ? 0 : 8) : 0,
+                                          ),
+                                          child: isLoading
+                                              ? const CircularProgressIndicator()
+                                              : TranslatedText(
+                                                  _secondsRemaining > 0
+                                                      ? l10n.waitSeconds(_secondsRemaining)
+                                                      : l10n.sendCode,
+                                                  style: const TextStyle(
+                                                      fontWeight: FontWeight.w900,
+                                                      fontSize: 16,
+                                                      letterSpacing: 1)),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                            const Spacer(flex: 4),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),

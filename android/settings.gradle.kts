@@ -1,3 +1,8 @@
+// Sửa lỗi xung đột biến môi trường Android cho Gradle
+// if (System.getenv("ANDROID_PREFS_ROOT") != null) {
+//     System.setProperty("ANDROID_PREFS_ROOT", "")
+// }
+
 rootProject.name = "ifixit_android"
 
 pluginManagement {

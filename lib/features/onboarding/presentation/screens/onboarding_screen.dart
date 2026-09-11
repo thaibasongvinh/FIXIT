@@ -6,7 +6,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:fixit/core/config/locale_provider.dart';
 import 'package:fixit/l10n/app_localizations.dart';
 import 'package:fixit/core/presentation/widgets/app_background.dart';
-
+import 'package:fixit/core/services/translation_provider.dart';
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
 import 'package:fixit/shared/widgets/app_bar/auth_top_actions.dart';
 import '../../domain/models/onboarding_model.dart';
 import '../providers/onboarding_provider.dart';
@@ -85,6 +86,22 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Widget build(BuildContext context) {
     final items = _getItems(context);
     final locale = ref.watch(localeNotifierProvider);
+    final targetLang = locale.languageCode;
+
+    // Pre-fetch translations for all onboarding items in a single batch
+    // This populates the provider cache for TranslatedText widgets
+    if (targetLang != 'en') {
+      final allTexts = <String>[];
+      for (var item in items) {
+        allTexts.add(item.title);
+        allTexts.add(item.description);
+        allTexts.add(item.buttonText);
+      }
+      // Trigger batch translation (we don't necessarily need to wait for it here,
+      // as individual TranslatedText widgets will watch their specific parts)
+      ref.watch(translatedBatchProvider(allTexts, targetLang));
+    }
+
     final themeMode = ref.watch(themeModeNotifierProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primaryColor = Theme.of(context).primaryColor;
@@ -105,7 +122,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     child: Row(
                       children: [
                         _ModernIndicators(
-                          total: items.length, 
+                          total: items.length,
                           current: _currentPage,
                           activeColor: isDark ? Colors.white : primaryColor,
                         ),
@@ -121,7 +138,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       ],
                     ),
                   ),
-                  
+
                   Expanded(
                     child: ScrollConfiguration(
                       behavior: const ScrollBehavior().copyWith(
@@ -145,7 +162,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   // Content Section với Glassmorphism thích ứng
                   _GlassContent(
                     isDark: isDark,
-                    item: items[_currentPage.round().clamp(0, items.length - 1)],
+                    item:
+                        items[_currentPage.round().clamp(0, items.length - 1)],
                     onNext: () {
                       HapticFeedback.mediumImpact();
                       if (_currentPage < items.length - 1) {
@@ -212,7 +230,8 @@ class _ParallaxPage extends StatelessWidget {
             child: Image.asset(
               item.imagePath,
               fit: BoxFit.contain, // Dùng contain để không bị cắt đầu
-              alignment: Alignment.bottomCenter, // Căn xuống dưới để phần đầu có nhiều khoảng trống nhất
+              alignment: Alignment
+                  .bottomCenter, // Căn xuống dưới để phần đầu có nhiều khoảng trống nhất
             ),
           ),
         ),
@@ -238,10 +257,14 @@ class _GlassContent extends StatelessWidget {
       margin: const EdgeInsets.all(24),
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        color: isDark ? Colors.white.withOpacity(0.08) : Colors.black.withOpacity(0.05),
+        color: isDark
+            ? Colors.white.withOpacity(0.08)
+            : Colors.black.withOpacity(0.05),
         borderRadius: BorderRadius.circular(32),
         border: Border.all(
-          color: isDark ? Colors.white.withOpacity(0.1) : Colors.black.withOpacity(0.05),
+          color: isDark
+              ? Colors.white.withOpacity(0.1)
+              : Colors.black.withOpacity(0.05),
         ),
       ),
       child: Column(
@@ -249,7 +272,7 @@ class _GlassContent extends StatelessWidget {
         children: [
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 400),
-            child: Text(
+            child: TranslatedText(
               item.title,
               key: ValueKey(item.title),
               textAlign: TextAlign.center,
@@ -264,12 +287,14 @@ class _GlassContent extends StatelessWidget {
           const SizedBox(height: 16),
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 400),
-            child: Text(
+            child: TranslatedText(
               item.description,
               key: ValueKey(item.description),
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: isDark ? Colors.white.withOpacity(0.7) : Colors.blueGrey.shade700,
+                color: isDark
+                    ? Colors.white.withOpacity(0.7)
+                    : Colors.blueGrey.shade700,
                 fontSize: 16,
                 height: 1.5,
               ),
@@ -282,15 +307,19 @@ class _GlassContent extends StatelessWidget {
             child: ElevatedButton(
               onPressed: onNext,
               style: ElevatedButton.styleFrom(
-                backgroundColor: isDark ? Colors.white : Theme.of(context).primaryColor,
-                foregroundColor: isDark ? const Color(0xFF0D47A1) : Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                backgroundColor:
+                    isDark ? Colors.white : Theme.of(context).primaryColor,
+                foregroundColor:
+                    isDark ? const Color(0xFF0D47A1) : Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
                 elevation: isDark ? 0 : 4,
                 shadowColor: Theme.of(context).primaryColor.withOpacity(0.3),
               ),
-              child: Text(
+              child: TranslatedText(
                 item.buttonText.toUpperCase(),
-                style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1),
+                style: const TextStyle(
+                    fontWeight: FontWeight.w900, letterSpacing: 1),
               ),
             ),
           ),
@@ -306,7 +335,7 @@ class _ModernIndicators extends StatelessWidget {
   final Color activeColor;
 
   const _ModernIndicators({
-    required this.total, 
+    required this.total,
     required this.current,
     required this.activeColor,
   });
@@ -322,7 +351,9 @@ class _ModernIndicators extends StatelessWidget {
           height: 6,
           width: width,
           decoration: BoxDecoration(
-            color: index == current.round() ? activeColor : activeColor.withOpacity(0.2),
+            color: index == current.round()
+                ? activeColor
+                : activeColor.withOpacity(0.2),
             borderRadius: BorderRadius.circular(3),
           ),
         );

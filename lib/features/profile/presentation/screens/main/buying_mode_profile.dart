@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
 import 'package:fixit/core/router/app_router.dart';
 import 'package:fixit/shared/models/user_model.dart';
 import 'package:fixit/features/auth/presentation/providers/auth_provider.dart';
@@ -104,7 +105,7 @@ class BuyingModeProfile extends ConsumerWidget {
   }
 
   Widget _buildHeader(AppLocalizations l10n, ThemeData theme, bool isDark) {
-    return Text(
+    return TranslatedText(
       'My Profile',
       style: TextStyle(
         color: isDark ? Colors.white : theme.colorScheme.primary,
@@ -132,7 +133,7 @@ class BuyingModeProfile extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  Text(
+                  TranslatedText(
                     user.name.isEmpty ? l10n.fixitUser : user.name,
                     style: TextStyle(
                       color: isDark ? Colors.white : theme.colorScheme.onSurface,
@@ -248,7 +249,7 @@ class BuyingModeProfile extends ConsumerWidget {
   }
 
   Widget _buildSectionTitle(String title, Color color) {
-    return Text(
+    return TranslatedText(
       title,
       style: TextStyle(
         color: color,

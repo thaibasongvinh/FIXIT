@@ -52,3 +52,8 @@ app.*.map.json
 /android/app/release
 **/local.properties
 /lib/firebase_options.dart
+
+# Tool-specific
+.artifacts/
+.agents/
+.junie/

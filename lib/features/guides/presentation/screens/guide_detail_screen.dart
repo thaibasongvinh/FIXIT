@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import '../../../../core/config/locale_provider.dart';
+import '../../../../core/services/translation_provider.dart';
+import '../../../../shared/widgets/typography/translated_text.dart';
 import '../../domain/models/guide_model.dart';
 import '../../domain/models/tool_model.dart';
 import '../../domain/models/step_model.dart';
@@ -51,14 +54,13 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
                       const _NothingSectionLabel(title: 'DESCRIPTION'),
                       const Gap(16),
                       _NothingPanel(
-                        child: MarkdownBody(
-                          data: guide.description,
-                          styleSheet: MarkdownStyleSheet(
-                            p: const TextStyle(
-                                fontSize: 16,
-                                height: 1.6,
-                                fontWeight: FontWeight.w400),
-                          ),
+                        child: TranslatedText(
+                          guide.description,
+                          useMarkdown: true,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              height: 1.6,
+                              fontWeight: FontWeight.w400),
                         ),
                       ),
                       const Gap(40),
@@ -103,7 +105,7 @@ class _NothingDetailAppBar extends StatelessWidget {
       expandedHeight: 240,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(left: 24, bottom: 16),
-        title: Text(
+        title: TranslatedText(
           guide.title.toUpperCase(),
           style: const TextStyle(
               fontWeight: FontWeight.w900,
@@ -210,11 +212,13 @@ class _NothingRequiredItems extends StatelessWidget {
                   children: [
                     const Icon(Icons.circle, color: Colors.red, size: 8),
                     const Gap(16),
-                    Text(i.name.toUpperCase(),
-                        style: const TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 1)),
+                    Expanded(
+                      child: TranslatedText(i.name.toUpperCase(),
+                          style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 1)),
+                    ),
                   ],
                 ),
               ),
@@ -257,7 +261,7 @@ class _NothingStepCard extends StatelessWidget {
                             color: Colors.red)),
                     const Gap(16),
                     Expanded(
-                        child: Text(step.title.toUpperCase(),
+                        child: TranslatedText(step.title.toUpperCase(),
                             style: const TextStyle(
                                 fontWeight: FontWeight.w900,
                                 fontSize: 16,
@@ -285,17 +289,38 @@ class _NothingStepCard extends StatelessWidget {
   }
 }
 
-class _NothingStepContent extends StatelessWidget {
+class _NothingStepContent extends ConsumerWidget {
   final String content;
   const _NothingStepContent({required this.content});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeNotifierProvider);
+    final targetLang = locale.languageCode;
+
+    if (targetLang == 'en') {
+      return _buildRichText(content);
+    }
+
+    final translationAsync =
+        ref.watch(translatedTextProvider(content, targetLang));
+
+    return translationAsync.when(
+      data: (translated) => _buildRichText(translated),
+      loading: () => Opacity(
+        opacity: 0.5,
+        child: _buildRichText(content),
+      ),
+      error: (_, __) => _buildRichText(content),
+    );
+  }
+
+  Widget _buildRichText(String text) {
     final List<InlineSpan> spans = [];
     final regex = RegExp(r'\{(red|orange|yellow|green|blue|violet)\}');
     int lastMatchEnd = 0;
-    for (final match in regex.allMatches(content)) {
+    for (final match in regex.allMatches(text)) {
       if (match.start > lastMatchEnd) {
-        spans.add(TextSpan(text: content.substring(lastMatchEnd, match.start)));
+        spans.add(TextSpan(text: text.substring(lastMatchEnd, match.start)));
       }
       final color = _getColorFromName(match.group(1));
       spans.add(
@@ -312,8 +337,8 @@ class _NothingStepContent extends StatelessWidget {
       );
       lastMatchEnd = match.end;
     }
-    if (lastMatchEnd < content.length)
-      spans.add(TextSpan(text: content.substring(lastMatchEnd)));
+    if (lastMatchEnd < text.length)
+      spans.add(TextSpan(text: text.substring(lastMatchEnd)));
 
     return RichText(
       text: TextSpan(

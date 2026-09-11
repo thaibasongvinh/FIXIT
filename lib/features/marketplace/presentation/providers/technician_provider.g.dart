@@ -23,7 +23,7 @@ final technicianRepositoryProvider =
 );
 
 typedef TechnicianRepositoryRef = AutoDisposeProviderRef<TechnicianRepository>;
-String _$technicianDetailHash() => r'8bc4fffb42da3d72c139fb7f7f74cbae893840d7';
+String _$technicianDetailHash() => r'b219446a12732b688459d890c4f88f3694e4205f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -175,7 +175,7 @@ class _TechnicianDetailProviderElement
 }
 
 String _$techniciansNotifierHash() =>
-    r'384e874bcc85bc295e703b9233cba7a07e0156ba';
+    r'd95488972b12d41fb508ec3ed5d46af8c2f94ab9';
 
 /// See also [TechniciansNotifier].
 @ProviderFor(TechniciansNotifier)

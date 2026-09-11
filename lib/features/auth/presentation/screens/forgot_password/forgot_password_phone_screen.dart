@@ -11,6 +11,11 @@ import 'package:fixit/features/auth/presentation/widgets/figma_auth_widgets.dart
 import 'package:fixit/core/presentation/widgets/app_background.dart';
 import 'package:fixit/l10n/app_localizations.dart';
 
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
+import 'package:fixit/core/config/locale_provider.dart';
+import 'package:fixit/core/services/translation_provider.dart';
+import '../../../../../shared/widgets/app_bar/auth_top_actions.dart';
+
 class ForgotPasswordPhoneScreen extends ConsumerStatefulWidget {
   const ForgotPasswordPhoneScreen({super.key});
 
@@ -130,109 +135,128 @@ class _ForgotPasswordPhoneScreenState extends ConsumerState<ForgotPasswordPhoneS
     final isDark = Theme.of(context).brightness == Brightness.dark;
     bool isButtonEnabled = _controller.text.replaceAll(' ', '').length >= 9 && _errorText == null;
 
+    final targetLang = ref.watch(localeNotifierProvider).languageCode;
+
+    // Tải trước bản dịch cho Forgot Password Phone Screen
+    if (targetLang != 'en') {
+      ref.watch(translatedBatchProvider([
+        l10n.phoneVerification,
+        l10n.enterPhoneToReceiveOTP,
+        l10n.sendCode,
+      ], targetLang));
+    }
+
     return AppBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        HapticFeedback.selectionClick();
-                        context.pop();
-                      },
-                      icon: Icon(Icons.arrow_back_ios_new, color: isDark ? Colors.white : Colors.black87, size: 22),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Column(
-                    children: [
-                      const Gap(20),
-                      _buildLogoBadge(isDark),
-                      const Gap(32),
-                      Text(
-                        l10n.phoneVerification, 
-                        style: TextStyle(
-                          fontSize: 32, 
-                          fontWeight: FontWeight.w900, 
-                          color: isDark ? Colors.white : Colors.blueGrey.shade900, 
-                          letterSpacing: -1
-                        ),
-                      ),
-                      const Gap(8),
-                      Text(
-                        l10n.enterPhoneToReceiveOTP,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16, 
-                          color: isDark ? Colors.white.withOpacity(0.6) : Colors.blueGrey.shade600, 
-                          fontWeight: FontWeight.w500
-                        ),
-                      ),
-                      const Gap(40),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                          child: Container(
-                            padding: const EdgeInsets.all(24),
-                            decoration: BoxDecoration(
-                              color: isDark ? Colors.white.withOpacity(0.08) : Colors.black.withOpacity(0.05),
-                              borderRadius: BorderRadius.circular(30),
-                              border: Border.all(color: isDark ? Colors.white.withOpacity(0.15) : Colors.black.withOpacity(0.05)),
-                            ),
-                            child: Column(
-                              children: [
-                                _buildPhoneInput(isDark),
-                                if (_errorText != null)
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8),
-                                    child: Text(_errorText!, style: const TextStyle(color: Color(0xFFFF5252), fontSize: 12)),
-                                  ),
-                                const Gap(40),
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: 60,
-                                  child: ElevatedButton(
-                                    onPressed: isButtonEnabled && !isLoading ? _onSendCode : null,
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: isButtonEnabled 
-                                          ? (isDark ? Colors.white : Theme.of(context).primaryColor) 
-                                          : (isDark ? Colors.white.withOpacity(0.3) : Colors.black12),
-                                      foregroundColor: isDark ? const Color(0xFF0D47A1) : Colors.white,
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                                      elevation: isButtonEnabled && !isDark ? 8 : 0,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Stack(
+                children: [
+                  SingleChildScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                      child: IntrinsicHeight(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Column(
+                            children: [
+                              AuthTopActions(
+                                showBack: true,
+                                onBack: () {
+                                  HapticFeedback.selectionClick();
+                                  context.pop();
+                                },
+                              ),
+                              const Spacer(flex: 3),
+                              _buildLogoBadge(isDark),
+                              const Gap(24),
+                              TranslatedText(
+                                l10n.phoneVerification, 
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 28, 
+                                  fontWeight: FontWeight.w900, 
+                                  color: isDark ? Colors.white : Colors.blueGrey.shade900, 
+                                  letterSpacing: -0.5
+                                ),
+                              ),
+                              const Gap(8),
+                              TranslatedText(
+                                l10n.enterPhoneToReceiveOTP,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 14, 
+                                  color: isDark ? Colors.white.withOpacity(0.6) : Colors.blueGrey.shade600, 
+                                  fontWeight: FontWeight.w500
+                                ),
+                              ),
+                              const Gap(32),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(24),
+                                    decoration: BoxDecoration(
+                                      color: isDark ? Colors.white.withOpacity(0.03) : Colors.white.withOpacity(0.4),
+                                      borderRadius: BorderRadius.circular(30),
+                                      border: Border.all(
+                                          color: isDark ? Colors.white.withOpacity(0.15) : Colors.white.withOpacity(0.6),
+                                          width: 0.8),
                                     ),
-                                    child: isLoading 
-                                      ? const CircularProgressIndicator()
-                                      : Text(
-                                          l10n.sendCode, 
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.w900, 
-                                            fontSize: 16, 
-                                            letterSpacing: 1,
-                                          )
+                                    child: Column(
+                                      children: [
+                                        _buildPhoneInput(isDark),
+                                        if (_errorText != null)
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 8),
+                                            child: TranslatedText(_errorText!, style: const TextStyle(color: Color(0xFFFF5252), fontSize: 12)),
+                                          ),
+                                        const Gap(32),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          height: 56,
+                                          child: ElevatedButton(
+                                            onPressed: isButtonEnabled && !isLoading ? _onSendCode : null,
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: isButtonEnabled 
+                                                  ? (isDark ? Colors.white : Theme.of(context).primaryColor) 
+                                                  : (isDark ? Colors.white.withOpacity(0.3) : Colors.black12),
+                                              foregroundColor: isDark ? const Color(0xFF0D47A1) : Colors.white,
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                              elevation: isButtonEnabled && !isDark ? 8 : 0,
+                                            ),
+                                            child: isLoading 
+                                              ? const CircularProgressIndicator()
+                                              : TranslatedText(
+                                                  l10n.sendCode, 
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.w900, 
+                                                    fontSize: 16, 
+                                                    letterSpacing: 1,
+                                                  )
+                                                ),
+                                          ),
                                         ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              const Spacer(flex: 4),
+                            ],
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ],
+                  if (_isCountryListOpen) _buildCountryPicker(),
+                ],
+              );
+            },
           ),
         ),
       ),
@@ -246,8 +270,8 @@ class _ForgotPasswordPhoneScreenState extends ConsumerState<ForgotPasswordPhoneS
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Colors.blueAccent.withOpacity(isDark ? 0.3 : 0.1), 
-            blurRadius: 40, 
+            color: Colors.blueAccent.withOpacity(isDark ? 0.3 : 0.1),
+            blurRadius: 40,
             spreadRadius: 5
           )
         ],

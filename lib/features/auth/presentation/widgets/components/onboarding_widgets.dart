@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
 import '../figma_auth_widgets.dart';
 
 class FigmaAuthUploadBox extends StatelessWidget {
@@ -17,7 +18,7 @@ class FigmaAuthUploadBox extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        TranslatedText(
           title,
           style: const TextStyle(
             color: kFixitText,
@@ -41,7 +42,7 @@ class FigmaAuthUploadBox extends StatelessWidget {
               children: [
                 Icon(Icons.add_a_photo, color: kFixitBlue),
                 Gap(10),
-                Text(
+                TranslatedText(
                   'Upload your certificate',
                   style: TextStyle(
                     color: kFixitBlue,
@@ -78,10 +79,12 @@ class FigmaAuthLocationButton extends StatelessWidget {
         onPressed: onTap,
         style: OutlinedButton.styleFrom(
           side: BorderSide(color: isPrimary ? kFixitBlue : kFixitBorder),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          backgroundColor: isPrimary ? kFixitLightBlue.withValues(alpha: 0.1) : null,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          backgroundColor:
+              isPrimary ? kFixitLightBlue.withValues(alpha: 0.1) : null,
         ),
-        child: Text(
+        child: TranslatedText(
           text,
           style: TextStyle(
             color: isPrimary ? kFixitBlue : Colors.black87,
@@ -103,14 +106,14 @@ class FigmaAuthDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dividerColor = color ?? const Color(0xFFE9E9E9);
-    final textColor = color?.withOpacity(0.6) ?? kFixitMutedText;
+    final textColor = color?.withValues(alpha: 0.6) ?? kFixitMutedText;
 
     return Row(
       children: [
         Expanded(child: Divider(color: dividerColor, height: 1)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Text(
+          child: TranslatedText(
             label,
             style: TextStyle(
               color: textColor,

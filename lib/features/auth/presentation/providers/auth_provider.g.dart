@@ -66,7 +66,7 @@ final currentUserApplicationProvider =
 );
 
 typedef CurrentUserApplicationRef = FutureProviderRef<TechApplication?>;
-String _$authNotifierHash() => r'66220ba5c3faf6e1c7922fa572a952135f597865';
+String _$authNotifierHash() => r'efee47467476cf63488759c5f20dd389402139f7';
 
 /// See also [AuthNotifier].
 @ProviderFor(AuthNotifier)

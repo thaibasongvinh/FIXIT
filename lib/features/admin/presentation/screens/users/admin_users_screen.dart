@@ -12,6 +12,9 @@ import 'package:fixit/features/home/presentation/widgets/components/shimmer_load
 import 'package:fixit/shared/utils/snackbar_utils.dart';
 import 'package:fixit/l10n/app_localizations.dart';
 
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
+import 'package:fixit/core/services/translation_provider.dart';
+
 class AdminUsersScreen extends ConsumerWidget {
   const AdminUsersScreen({super.key});
 
@@ -35,7 +38,7 @@ class AdminUsersScreen extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Text(l10n.userManagement, 
+        title: TranslatedText(l10n.userManagement, 
           style: TextStyle(color: textColor, fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 3)),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new, color: textColor, size: 18),
@@ -65,7 +68,7 @@ class AdminUsersScreen extends ConsumerWidget {
                         children: [
                           const Icon(Icons.error_outline_rounded, color: Colors.redAccent, size: 40),
                           const Gap(12),
-                          Text(l10n.error(e.toString()), 
+                          TranslatedText(l10n.error(e.toString()), 
                             textAlign: TextAlign.center,
                             style: const TextStyle(color: Colors.redAccent, fontSize: 12)
                           ),
@@ -147,7 +150,7 @@ class AdminUsersScreen extends ConsumerWidget {
           ),
           boxShadow: isSelected ? [BoxShadow(color: Colors.blueAccent.withOpacity(0.2), blurRadius: 10, spreadRadius: -2)] : [],
         ),
-        child: Text(
+        child: TranslatedText(
           label,
           style: TextStyle(
             color: isSelected ? Colors.white : (isDark ? Colors.white.withOpacity(0.3) : Colors.black.withOpacity(0.3)),
@@ -218,14 +221,14 @@ class AdminUsersScreen extends ConsumerWidget {
                   color: roleColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Text(role.toUpperCase(), 
+                child: TranslatedText(role.toUpperCase(), 
                   style: TextStyle(color: roleColor, fontSize: 9, fontWeight: FontWeight.w900)),
               ),
               const Gap(4),
               if (isMe)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, right: 4),
-                  child: const Text(
+                  child: const TranslatedText(
                     'YOU',
                     style: TextStyle(
                       color: Colors.blueAccent,
@@ -342,13 +345,13 @@ class AdminUsersScreen extends ConsumerWidget {
                   ),
                 ),
                 const Gap(24),
-                Text(
+                TranslatedText(
                   title,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: isDark ? Colors.white : Colors.black, letterSpacing: 1),
                 ),
                 const Gap(12),
-                Text(
+                TranslatedText(
                   description,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: (isDark ? Colors.white : Colors.black).withOpacity(0.6), height: 1.5),
                   textAlign: TextAlign.center,
@@ -368,13 +371,13 @@ class AdminUsersScreen extends ConsumerWidget {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                       elevation: 0,
                     ),
-                    child: Text(buttonText, style: const TextStyle(fontWeight: FontWeight.w900)),
+                    child: TranslatedText(buttonText, style: const TextStyle(fontWeight: FontWeight.w900)),
                   ),
                 ),
                 const Gap(12),
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text(l10n.cancel, style: TextStyle(color: (isDark ? Colors.white : Colors.black).withOpacity(0.3), fontWeight: FontWeight.bold)),
+                  child: TranslatedText(l10n.cancel, style: TextStyle(color: (isDark ? Colors.white : Colors.black).withOpacity(0.3), fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
@@ -386,7 +389,7 @@ class AdminUsersScreen extends ConsumerWidget {
 
   Widget _buildEmptyState(Color subTextColor, AppLocalizations l10n) {
     return Center(
-      child: Text(l10n.noUsersFound, style: TextStyle(color: subTextColor)),
+      child: TranslatedText(l10n.noUsersFound, style: TextStyle(color: subTextColor)),
     );
   }
 

@@ -429,7 +429,7 @@ class _GuideBookmarkStatusProviderElement
 }
 
 String _$guidesFeedNotifierHash() =>
-    r'60073fa6d42e5848e5ba7c59ff8ef5d3d3e81c76';
+    r'89d38e5eb169470bf73804686e7882dc0688b936';
 
 /// See also [GuidesFeedNotifier].
 @ProviderFor(GuidesFeedNotifier)

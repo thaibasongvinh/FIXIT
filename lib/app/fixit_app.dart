@@ -16,8 +16,8 @@ class FixitApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final environment = ref.watch(appEnvironmentProvider);
     final router = ref.watch(appRouterProvider);
-    final locale = ref.watch(localeNotifierProvider);
     final themeMode = ref.watch(themeModeNotifierProvider);
+    final locale = ref.watch(localeNotifierProvider);
 
     return MaterialApp.router(
       restorationScopeId: 'app',
@@ -32,7 +32,17 @@ class FixitApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: AppLocalizations.supportedLocales,
+      supportedLocales: const [
+        Locale('vi'),
+        Locale('en'),
+        Locale('ja'),
+        Locale('ko'),
+        Locale('zh'),
+        Locale('fr'),
+        Locale('de'),
+        Locale('es'),
+        Locale('it'),
+      ],
       locale: locale,
       builder: (context, child) => AppSetupWrapper(child: child),
       debugShowCheckedModeBanner: false,

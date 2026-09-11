@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fixit/core/router/app_router.dart';
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
+import 'package:fixit/core/services/translation_provider.dart';
 import 'package:fixit/features/admin/presentation/providers/admin_provider.dart';
 import 'package:fixit/features/admin/domain/models/admin_models.dart';
 import 'package:fixit/shared/utils/snackbar_utils.dart';
@@ -26,7 +28,7 @@ class AdminApprovalsScreen extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Text(l10n.approvals.toUpperCase(), 
+        title: TranslatedText(l10n.approvals.toUpperCase(), 
           style: TextStyle(color: textColor, fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 2)),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new, color: textColor, size: 18),
@@ -69,8 +71,8 @@ class AdminApprovalsScreen extends ConsumerWidget {
         children: [
           Icon(Icons.verified_user_outlined, size: 80, color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.1)),
           const Gap(16),
-          Text('All caught up!', style: TextStyle(color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.5), fontSize: 18, fontWeight: FontWeight.bold)),
-          Text('No pending technician applications', style: TextStyle(color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.3))),
+          TranslatedText('All caught up!', style: TextStyle(color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.5), fontSize: 18, fontWeight: FontWeight.bold)),
+          TranslatedText('No pending technician applications', style: TextStyle(color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.3))),
         ],
       ),
     );
@@ -131,7 +133,7 @@ class AdminApprovalsScreen extends ConsumerWidget {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
-                      child: const Text('REJECT', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 1)),
+                      child: TranslatedText('REJECT', style: const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 1)),
                     ),
                   ),
                   const Gap(16),
@@ -145,7 +147,7 @@ class AdminApprovalsScreen extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         elevation: 0,
                       ),
-                      child: const Text('APPROVE', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 1)),
+                      child: TranslatedText('APPROVE', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 1)),
                     ),
                   ),
                 ],

@@ -21,6 +21,7 @@ import 'package:fixit/shared/utils/permission_utils.dart';
 import 'package:fixit/shared/models/user_model.dart';
 import 'package:fixit/features/admin/presentation/screens/dashboard/widgets/admin_settings_drawer.dart';
 
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
 import '../../../../profile/presentation/widgets/components/avatar/profile_avatar.dart';
 
 class AdminDashboardScreen extends ConsumerWidget {
@@ -151,7 +152,7 @@ class AdminDashboardScreen extends ConsumerWidget {
               children: [
                 const Icon(Icons.shield_rounded, color: Colors.blueAccent, size: 14),
                 const Gap(8),
-                Text(
+                TranslatedText(
                   AppLocalizations.of(context)!.adminPanel,
                   style: const TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.w900, fontSize: 10, letterSpacing: 1),
                 ),
@@ -202,19 +203,23 @@ class AdminDashboardScreen extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l10n.commandCenter,
-              style: TextStyle(color: Colors.blueAccent.withOpacity(0.8), fontWeight: FontWeight.w800, fontSize: 14, letterSpacing: 1.5),
-            ),
-            const Gap(4),
-            Text(
-              l10n.helloAdmin(name),
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.w900, color: textColor),
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TranslatedText(
+                l10n.commandCenter,
+                style: TextStyle(color: Colors.blueAccent.withOpacity(0.8), fontWeight: FontWeight.w800, fontSize: 14, letterSpacing: 1.5),
+              ),
+              const Gap(4),
+              TranslatedText(
+                l10n.helloAdmin(name),
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: textColor),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
         if (canExport)
           Padding(
@@ -274,7 +279,7 @@ class AdminDashboardScreen extends ConsumerWidget {
       physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: 16,
       crossAxisSpacing: 16,
-      childAspectRatio: 1.3,
+      childAspectRatio: 1.15, // Tăng nhẹ tỉ lệ chiều cao (từ 1.3 về 1.15) để chứa text dài
       children: [
         _buildStatCard(
           l10n.revenue, 
@@ -330,39 +335,41 @@ class AdminDashboardScreen extends ConsumerWidget {
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Phân bổ đều không gian
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(8), // Giảm padding từ 10 xuống 8
                           decoration: BoxDecoration(
                             color: color.withValues(alpha: 0.12), 
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(12),
                             border: Border.all(color: color.withValues(alpha: 0.1)),
-                            boxShadow: [
-                              if (cardColor != Colors.white.withValues(alpha: 0.06))
-                                BoxShadow(color: color.withOpacity(0.1), blurRadius: 10)
-                            ],
                           ),
-                          child: Icon(icon, color: color, size: 22),
+                          child: Icon(icon, color: color, size: 20),
                         ),
-                        if (!isLocked) Icon(Icons.trending_up_rounded, color: color.withValues(alpha: 0.6), size: 18),
+                        if (!isLocked) Icon(Icons.trending_up_rounded, color: color.withValues(alpha: 0.6), size: 16),
                       ],
                     ),
-                    const Spacer(),
+                    const Gap(8),
                     Text(value, style: TextStyle(
                       color: textColor, 
-                      fontSize: 26, 
+                      fontSize: 24, // Giảm nhẹ từ 26 xuống 24
                       fontWeight: FontWeight.w900,
                       letterSpacing: -0.5,
                     )),
-                    Text(label, style: TextStyle(
-                      color: subTextColor, 
-                      fontSize: 10, 
-                      fontWeight: FontWeight.w800, 
-                      letterSpacing: 1.2,
-                    )),
+                    TranslatedText(label, 
+                      maxLines: 2, // Cho phép xuống dòng
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: subTextColor, 
+                        fontSize: 9, // Giảm nhẹ từ 10 xuống 9
+                        fontWeight: FontWeight.w800, 
+                        letterSpacing: 1.0,
+                        height: 1.1,
+                      )
+                    ),
                   ],
                 ),
                 if (isLocked)
@@ -418,7 +425,7 @@ class AdminDashboardScreen extends ConsumerWidget {
           Icon(focusIcon, color: focusColor, size: 20),
           const Gap(12),
           Expanded(
-            child: Text(
+            child: TranslatedText(
               focusText,
               style: TextStyle(
                 color: isDark ? focusColor.withOpacity(0.9) : focusColor.withOpacity(0.8),
@@ -438,7 +445,7 @@ class AdminDashboardScreen extends ConsumerWidget {
       children: [
         Container(width: 4, height: 16, decoration: BoxDecoration(color: Colors.blueAccent, borderRadius: BorderRadius.circular(2))),
         const Gap(12),
-        Text(
+        TranslatedText(
           title,
           style: TextStyle(color: subTextColor, fontWeight: FontWeight.w900, letterSpacing: 2, fontSize: 11),
         ),
@@ -563,7 +570,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                           size: 32
                         ),
                         const Gap(10),
-                        Text(
+                        TranslatedText(
                           label, 
                           style: TextStyle(
                             color: hasAccess ? textColor : (isDark ? Colors.white24 : Colors.black26), 
@@ -830,7 +837,7 @@ class _JobDistributionChart extends StatelessWidget {
                     children: [
                       Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
                       const Gap(8),
-                      Expanded(child: Text(e.key, style: TextStyle(color: textColor.withOpacity(0.7), fontSize: 11), overflow: TextOverflow.ellipsis)),
+                      Expanded(child: TranslatedText(e.key, style: TextStyle(color: textColor.withOpacity(0.7), fontSize: 11), overflow: TextOverflow.ellipsis)),
                       Text(e.value.toString(), style: TextStyle(color: subTextColor, fontSize: 11, fontWeight: FontWeight.bold)),
                     ],
                   ),

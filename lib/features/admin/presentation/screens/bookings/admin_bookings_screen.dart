@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:fixit/core/presentation/widgets/app_background.dart';
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
+import 'package:fixit/core/services/translation_provider.dart';
 import 'package:fixit/features/admin/presentation/providers/admin_provider.dart';
 import 'package:fixit/features/admin/domain/models/admin_models.dart';
 import 'package:fixit/l10n/app_localizations.dart';
@@ -34,7 +36,7 @@ class AdminBookingsView extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Text(l10n.jobs.toUpperCase(), 
+        title: TranslatedText(l10n.jobs.toUpperCase(), 
           style: TextStyle(color: textColor, fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 2)),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new, color: textColor, size: 18),
@@ -46,7 +48,7 @@ class AdminBookingsView extends ConsumerWidget {
           data: (bookings) => RefreshIndicator(
             onRefresh: () => ref.read(adminBookingsProvider.notifier).refresh(),
             child: bookings.isEmpty
-                ? Center(child: Text(l10n.noJobData, style: TextStyle(color: textColor.withValues(alpha: 0.3))))
+                ? Center(child: TranslatedText(l10n.noJobData, style: TextStyle(color: textColor.withValues(alpha: 0.3))))
                 : ListView.separated(
                     padding: const EdgeInsets.fromLTRB(24, 10, 24, 40),
                     itemCount: bookings.length,
@@ -55,7 +57,7 @@ class AdminBookingsView extends ConsumerWidget {
                   ),
           ),
           loading: () => Center(child: CircularProgressIndicator(color: isDark ? Colors.white : Colors.blueAccent)),
-          error: (e, _) => Center(child: Text(l10n.error(e.toString()), style: TextStyle(color: textColor))),
+          error: (e, _) => Center(child: TranslatedText(l10n.error(e.toString()), style: TextStyle(color: textColor))),
         ),
       ),
     );
@@ -93,7 +95,7 @@ class AdminBookingsView extends ConsumerWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(color: statusColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
-                    child: Text(booking.status.toUpperCase(), style: TextStyle(color: statusColor, fontSize: 10, fontWeight: FontWeight.w900)),
+                    child: TranslatedText(booking.status.toUpperCase(), style: TextStyle(color: statusColor, fontSize: 10, fontWeight: FontWeight.w900)),
                   ),
                   Text(
                     DateFormat('MMM dd, HH:mm').format(booking.createdAt),
@@ -102,7 +104,7 @@ class AdminBookingsView extends ConsumerWidget {
                 ],
               ),
               const Gap(16),
-              Text(booking.serviceTitle, style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
+              TranslatedText(booking.serviceTitle, style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
               const Gap(12),
               Row(
                 children: [
@@ -117,7 +119,7 @@ class AdminBookingsView extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(l10n.revenue, style: TextStyle(color: textColor.withValues(alpha: 0.4), fontSize: 13)),
+                  TranslatedText(l10n.revenue, style: TextStyle(color: textColor.withValues(alpha: 0.4), fontSize: 13)),
                   Text(
                     currencyFormat.format(booking.totalPrice),
                     style: const TextStyle(color: Colors.greenAccent, fontSize: 18, fontWeight: FontWeight.w900),
@@ -135,7 +137,7 @@ class AdminBookingsView extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(color: textColor.withValues(alpha: 0.3), fontSize: 11)),
+        TranslatedText(label, style: TextStyle(color: textColor.withValues(alpha: 0.3), fontSize: 11)),
         const Gap(4),
         Row(
           children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../typography/translated_text.dart';
 
 class AppPrimaryButton extends StatelessWidget {
   final String label;
@@ -32,7 +33,7 @@ class AppPrimaryButton extends StatelessWidget {
               height: 20,
               child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
             )
-          : Text(
+          : TranslatedText(
               label,
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
             ),

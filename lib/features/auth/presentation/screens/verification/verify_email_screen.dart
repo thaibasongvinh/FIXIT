@@ -13,10 +13,15 @@ import 'package:fixit/core/router/app_router.dart';
 import 'package:fixit/core/presentation/widgets/app_background.dart';
 import 'package:fixit/l10n/app_localizations.dart';
 
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
+import 'package:fixit/core/config/locale_provider.dart';
+import 'package:fixit/core/services/translation_provider.dart';
+
 class VerifyEmailScreen extends ConsumerStatefulWidget {
   final bool isForgotPassword;
   final String? email;
-  const VerifyEmailScreen({super.key, this.isForgotPassword = false, this.email});
+  const VerifyEmailScreen(
+      {super.key, this.isForgotPassword = false, this.email});
 
   @override
   ConsumerState<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
@@ -35,7 +40,8 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
     });
     _startTimer();
     if (!widget.isForgotPassword) {
-      Future.delayed(const Duration(milliseconds: 500), () => _sendEmail(isInitial: true));
+      Future.delayed(
+          const Duration(milliseconds: 500), () => _sendEmail(isInitial: true));
     }
   }
 
@@ -50,12 +56,14 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!mounted) return;
-      setState(() => _secondsRemaining > 0 ? _secondsRemaining-- : _timer?.cancel());
+      setState(
+          () => _secondsRemaining > 0 ? _secondsRemaining-- : _timer?.cancel());
     });
   }
 
   Future<void> _sendEmail({bool isInitial = false}) async {
-    final email = widget.email ?? ref.read(authStateProvider).valueOrNull?.email;
+    final email =
+        widget.email ?? ref.read(authStateProvider).valueOrNull?.email;
     if (email == null) return;
     final l10n = AppLocalizations.of(context)!;
 
@@ -65,7 +73,11 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
 
       if (mounted) {
         _startTimer();
-        AppSnackbar.showSuccess(context, isInitial ? l10n.verificationCodeSentSmall : l10n.codeResentSuccess);
+        AppSnackbar.showSuccess(
+            context,
+            isInitial
+                ? l10n.verificationCodeSentSmall
+                : l10n.codeResentSuccess);
       }
     } catch (e) {
       if (mounted) AppSnackbar.showError(context, l10n.failedToSendCode);
@@ -78,9 +90,10 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
       return AppSnackbar.showError(context, l10n.enterAllDigits);
     }
 
-    final email = widget.email ?? ref.read(authStateProvider).valueOrNull?.email;
+    final email =
+        widget.email ?? ref.read(authStateProvider).valueOrNull?.email;
     if (email == null) return;
-    
+
     HapticFeedback.mediumImpact();
     try {
       final notifier = ref.read(authNotifierProvider.notifier);
@@ -109,6 +122,23 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
     final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
+    final locale = ref.watch(localeNotifierProvider);
+    final targetLang = locale.languageCode;
+
+    // Tải trước bản dịch cho Verify Email Screen
+    if (targetLang != 'en') {
+      ref.watch(translatedBatchProvider([
+        'Email Verification',
+        'Enter your email address to receive OTP',
+        l10n.otpVerification,
+        l10n.enterCodeSentTo,
+        l10n.yourEmail,
+        l10n.verify,
+        l10n.didntReceiveCode,
+        l10n.resendCode,
+      ], targetLang));
+    }
+
     return AppBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -116,7 +146,8 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: Row(
                   children: [
                     IconButton(
@@ -125,15 +156,15 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                         if (widget.isForgotPassword) {
                           context.pop();
                         } else {
-                          await ref.read(authNotifierProvider.notifier).signOut();
+                          await ref
+                              .read(authNotifierProvider.notifier)
+                              .signOut();
                           if (mounted) context.go(AppRoutes.login);
                         }
                       },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new, 
-                        color: isDark ? Colors.white : Colors.black87, 
-                        size: 22
-                      ),
+                      icon: Icon(Icons.arrow_back_ios_new,
+                          color: isDark ? Colors.white : Colors.black87,
+                          size: 22),
                     ),
                   ],
                 ),
@@ -146,27 +177,35 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                       const Gap(20),
                       _buildLogoBadge(isDark),
                       const Gap(32),
-                      Text(
-                        l10n.otpVerification,
+                      TranslatedText(
+                        l10n.emailVerification,
                         style: TextStyle(
-                          fontSize: 32, 
-                          fontWeight: FontWeight.w900, 
-                          color: isDark ? Colors.white : Colors.blueGrey.shade900, 
-                          letterSpacing: -1
-                        ),
+                            fontSize: 32,
+                            fontWeight: FontWeight.w900,
+                            color: isDark
+                                ? Colors.white
+                                : Colors.blueGrey.shade900,
+                            letterSpacing: -1),
                       ),
                       const Gap(8),
-                      Text(
-                        '${l10n.enterCodeSentTo}\n${widget.email ?? l10n.yourEmail}',
+                      TranslatedText(
+                        l10n.enterEmailToReceiveOTP,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 16, 
-                          color: isDark ? Colors.white.withOpacity(0.6) : Colors.blueGrey.shade600, 
-                          fontWeight: FontWeight.w500
-                        ),
+                            fontSize: 16,
+                            color: isDark
+                                ? Colors.white.withValues(alpha: 0.6)
+                                : Colors.blueGrey.shade600,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        widget.email ?? l10n.yourEmail,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: isDark ? Colors.blueAccent : Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold),
                       ),
                       const Gap(40),
-                      
                       ClipRRect(
                         borderRadius: BorderRadius.circular(30),
                         child: BackdropFilter(
@@ -174,44 +213,56 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
                           child: Container(
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
-                              color: isDark ? Colors.white.withOpacity(0.08) : Colors.black.withOpacity(0.05),
+                              color: isDark
+                                  ? Colors.white.withOpacity(0.08)
+                                  : Colors.black.withOpacity(0.05),
                               borderRadius: BorderRadius.circular(30),
                               border: Border.all(
-                                color: isDark ? Colors.white.withOpacity(0.15) : Colors.black.withOpacity(0.05)
-                              ),
+                                  color: isDark
+                                      ? Colors.white.withOpacity(0.15)
+                                      : Colors.black.withOpacity(0.05)),
                             ),
                             child: Column(
                               children: [
                                 // PIN Input thích ứng theo theme
                                 FigmaAuthPINInput(
                                   key: const ValueKey('otp_input'),
-                                  length: 6, 
+                                  length: 6,
                                   darkTheme: isDark,
-                                  onChanged: (code) => setState(() => _otpCode = code),
+                                  onChanged: (code) =>
+                                      setState(() => _otpCode = code),
                                 ),
                                 const Gap(40),
                                 SizedBox(
                                   width: double.infinity,
                                   height: 60,
                                   child: ElevatedButton(
-                                    onPressed: isLoading ? null : _checkVerification,
+                                    onPressed:
+                                        isLoading ? null : _checkVerification,
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: isDark ? Colors.white : Theme.of(context).primaryColor,
-                                      foregroundColor: isDark ? const Color(0xFF0D47A1) : Colors.white,
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                      backgroundColor: isDark
+                                          ? Colors.white
+                                          : Theme.of(context).primaryColor,
+                                      foregroundColor: isDark
+                                          ? const Color(0xFF0D47A1)
+                                          : Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16)),
                                       elevation: isDark ? 0 : 8,
                                     ),
-                                    child: isLoading 
-                                      ? const CircularProgressIndicator()
-                                      : Text(
-                                          l10n.verify, 
-                                          style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16, letterSpacing: 2)
-                                        ),
+                                    child: isLoading
+                                        ? const CircularProgressIndicator()
+                                        : TranslatedText(l10n.verify,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w900,
+                                                fontSize: 16,
+                                                letterSpacing: 2)),
                                   ),
                                 ),
                                 const Gap(32),
                                 _ResendSection(
-                                  seconds: _secondsRemaining, 
+                                  seconds: _secondsRemaining,
                                   onResend: _sendEmail,
                                   isDark: isDark,
                                 ),
@@ -244,7 +295,8 @@ class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Colors.blueAccent.withOpacity(isDark ? 0.4 * value : 0.2),
+                color:
+                    Colors.blueAccent.withOpacity(isDark ? 0.4 * value : 0.2),
                 blurRadius: 40,
                 spreadRadius: 5,
               ),
@@ -290,28 +342,30 @@ class _ResendSection extends StatelessWidget {
   final int seconds;
   final VoidCallback onResend;
   final bool isDark;
-  const _ResendSection({required this.seconds, required this.onResend, required this.isDark});
+  const _ResendSection(
+      {required this.seconds, required this.onResend, required this.isDark});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Column(
       children: [
-        Text(
+        TranslatedText(
           l10n.didntReceiveCode,
           style: TextStyle(
-            color: isDark ? Colors.white.withOpacity(0.5) : Colors.blueGrey.shade600, 
-            fontSize: 14
-          ),
+              color: isDark
+                  ? Colors.white.withOpacity(0.5)
+                  : Colors.blueGrey.shade600,
+              fontSize: 14),
         ),
         const Gap(8),
         TextButton(
           onPressed: seconds == 0 ? onResend : null,
-          child: Text(
+          child: TranslatedText(
             seconds == 0 ? l10n.resendCode : l10n.resendIn(seconds),
             style: TextStyle(
-              color: seconds == 0 
-                  ? (isDark ? Colors.white : Theme.of(context).primaryColor) 
+              color: seconds == 0
+                  ? (isDark ? Colors.white : Theme.of(context).primaryColor)
                   : (isDark ? Colors.white24 : Colors.black26),
               fontWeight: FontWeight.w800,
               letterSpacing: 1,

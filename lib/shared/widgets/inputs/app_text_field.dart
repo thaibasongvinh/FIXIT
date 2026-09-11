@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../typography/translated_text.dart';
+import '../../../core/services/translation_provider.dart';
+import '../../../core/config/locale_provider.dart';
 
-class AppTextField extends StatefulWidget {
+class AppTextField extends ConsumerStatefulWidget {
   final TextEditingController controller;
   final String hint;
   final IconData icon;
@@ -36,10 +40,10 @@ class AppTextField extends StatefulWidget {
   });
 
   @override
-  State<AppTextField> createState() => _AppTextFieldState();
+  ConsumerState<AppTextField> createState() => _AppTextFieldState();
 }
 
-class _AppTextFieldState extends State<AppTextField> {
+class _AppTextFieldState extends ConsumerState<AppTextField> {
   bool _isFocused = false;
 
   @override
@@ -47,24 +51,36 @@ class _AppTextFieldState extends State<AppTextField> {
     final Color textColor =
         widget.darkTheme ? Colors.white : const Color(0xFF424242);
     final Color hintColor = widget.darkTheme
-        ? Colors.white.withOpacity(0.5)
+        ? Colors.white.withValues(alpha: 0.5)
         : const Color(0xFF707070);
     final Color iconColor =
         widget.darkTheme ? Colors.white : const Color(0xFF252525);
     final Color labelColor = widget.darkTheme
-        ? Colors.white.withOpacity(0.7)
+        ? Colors.white.withValues(alpha: 0.7)
         : const Color(0xFF757575);
     final Color fillColor =
-        widget.darkTheme ? Colors.white.withOpacity(0.05) : Colors.white;
-    final Color borderColor =
-        widget.darkTheme ? Colors.white.withOpacity(0.1) : const Color(0xFFD7D7D7);
+        widget.darkTheme ? Colors.white.withValues(alpha: 0.05) : Colors.white;
+    final Color borderColor = widget.darkTheme
+        ? Colors.white.withValues(alpha: 0.1)
+        : const Color(0xFFD7D7D7);
+
+    // Dịch hintText nếu cần
+    String displayHint = widget.hint;
+    final locale = ref.watch(localeNotifierProvider);
+    final targetLang = locale.languageCode;
+
+    if (targetLang != 'en') {
+      final translationAsync =
+          ref.watch(translatedTextProvider(widget.hint, targetLang));
+      displayHint = translationAsync.valueOrNull ?? widget.hint;
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         if (widget.label != null) ...[
-          Text(
+          TranslatedText(
             widget.label!,
             style: TextStyle(
               color: labelColor,
@@ -81,10 +97,13 @@ class _AppTextFieldState extends State<AppTextField> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
-                if (_isFocused && widget.darkTheme)
+                if (_isFocused)
                   BoxShadow(
-                    color: Colors.blueAccent.withOpacity(0.2),
-                    blurRadius: 15,
+                    color: (widget.darkTheme
+                            ? Colors.blueAccent
+                            : const Color(0xFF005CB7))
+                        .withValues(alpha: 0.15),
+                    blurRadius: 20,
                     spreadRadius: 2,
                   )
               ],
@@ -104,7 +123,7 @@ class _AppTextFieldState extends State<AppTextField> {
                 fontWeight: FontWeight.w500,
               ),
               decoration: InputDecoration(
-                hintText: widget.hint,
+                hintText: displayHint,
                 hintStyle: TextStyle(
                   color: hintColor,
                   fontSize: 15,
@@ -117,7 +136,7 @@ class _AppTextFieldState extends State<AppTextField> {
                           widget.obscure
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
-                          color: iconColor.withOpacity(0.6),
+                          color: iconColor.withValues(alpha: 0.6),
                           size: 22,
                         ),
                         onPressed: widget.onToggleVisibility,
@@ -139,12 +158,15 @@ class _AppTextFieldState extends State<AppTextField> {
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: BorderSide(
-                      color: widget.darkTheme ? Colors.white : const Color(0xFF005CB7),
+                      color: widget.darkTheme
+                          ? Colors.white
+                          : const Color(0xFF005CB7),
                       width: 1.5),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
-                  borderSide: const BorderSide(color: Color(0xFFFF5252), width: 1),
+                  borderSide:
+                      const BorderSide(color: Color(0xFFFF5252), width: 1),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),

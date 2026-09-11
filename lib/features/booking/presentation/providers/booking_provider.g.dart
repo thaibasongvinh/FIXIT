@@ -174,7 +174,7 @@ class _CustomerBookingsProviderElement
 }
 
 String _$technicianBookingsHash() =>
-    r'b9e4028921ac109cb60ca37e5f9ec2252ba9232e';
+    r'd7a10f22d581e0dab439ccc4ffb6e425bed033a7';
 
 /// See also [technicianBookings].
 @ProviderFor(technicianBookings)
@@ -436,7 +436,7 @@ class _BookingDetailProviderElement
   String get bookingId => (origin as BookingDetailProvider).bookingId;
 }
 
-String _$technicianReviewsHash() => r'97b1b0360f7bab51bf8027e63bce805739cc4dbb';
+String _$technicianReviewsHash() => r'373b008e692fffefd6e2b0e984b96ed1745f314a';
 
 /// See also [technicianReviews].
 @ProviderFor(technicianReviews)

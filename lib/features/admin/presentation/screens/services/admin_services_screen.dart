@@ -14,6 +14,8 @@ import 'package:fixit/shared/utils/snackbar_utils.dart';
 import 'package:fixit/features/admin/presentation/screens/services/admin_service_issues_screen.dart';
 import 'package:fixit/l10n/app_localizations.dart';
 
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
+import 'package:fixit/core/services/translation_provider.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AdminServicesScreen extends ConsumerWidget {
@@ -41,7 +43,7 @@ class AdminServicesScreen extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Text(l10n.serviceCatalog, 
+        title: TranslatedText(l10n.serviceCatalog, 
           style: TextStyle(color: textColor, fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 3)),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new, color: textColor, size: 18),
@@ -121,7 +123,7 @@ class AdminServicesScreen extends ConsumerWidget {
                         children: [
                           const Icon(Icons.error_outline_rounded, color: Colors.redAccent, size: 40),
                           const Gap(12),
-                          Text(l10n.error(e.toString()), 
+                          TranslatedText(l10n.error(e.toString()), 
                             textAlign: TextAlign.center,
                             style: const TextStyle(color: Colors.redAccent, fontSize: 12)
                           ),
@@ -194,7 +196,7 @@ class AdminServicesScreen extends ConsumerWidget {
             color: isSelected ? Colors.blueAccent : (isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.05)),
           ),
         ),
-        child: Text(
+        child: TranslatedText(
           label,
           style: TextStyle(
             color: isSelected ? Colors.white : (isDark ? Colors.white.withOpacity(0.3) : Colors.black.withOpacity(0.3)),
@@ -272,7 +274,7 @@ class AdminServicesScreen extends ConsumerWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(service.title, 
+                              TranslatedText(service.title, 
                                 style: TextStyle(color: isDark ? Colors.white : Colors.black, fontWeight: FontWeight.bold, fontSize: 16)),
                               Container(
                                 margin: const EdgeInsets.only(top: 4),
@@ -281,7 +283,7 @@ class AdminServicesScreen extends ConsumerWidget {
                                   color: Colors.orangeAccent.withOpacity(0.15),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
-                                child: Text('🔥 ${l10n.popular.toUpperCase()}', style: const TextStyle(color: Colors.orangeAccent, fontSize: 8, fontWeight: FontWeight.w900)),
+                                child: TranslatedText('🔥 ${l10n.popular.toUpperCase()}', style: const TextStyle(color: Colors.orangeAccent, fontSize: 8, fontWeight: FontWeight.w900)),
                               ),
                             ],
                           ),
@@ -331,7 +333,7 @@ class AdminServicesScreen extends ConsumerWidget {
                       if (children.isEmpty) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 16),
-                          child: Text('No sub-services found', style: TextStyle(color: isDark ? Colors.white24 : Colors.black12, fontSize: 12)),
+                          child: TranslatedText('No sub-services found', style: TextStyle(color: isDark ? Colors.white24 : Colors.black12, fontSize: 12)),
                         );
                       }
                       return Column(
@@ -442,7 +444,7 @@ class AdminServicesScreen extends ConsumerWidget {
                       ),
                       const Gap(12),
                       Expanded(
-                        child: Text(service.title, 
+                        child: TranslatedText(service.title, 
                           style: TextStyle(color: isDark ? Colors.white70 : Colors.black87, fontWeight: FontWeight.w600, fontSize: 14)),
                       ),
                       Icon(Icons.chevron_right_rounded, color: isDark ? Colors.white24 : Colors.black12, size: 20),
@@ -584,7 +586,7 @@ class AdminServicesScreen extends ConsumerWidget {
                             child: const Icon(Icons.edit_document, color: Colors.blueAccent, size: 28),
                           ),
                           const Gap(16),
-                          Text(l10n.editService, 
+                          TranslatedText(l10n.editService, 
                             style: TextStyle(color: isDark ? Colors.white : Colors.black, fontWeight: FontWeight.w900, fontSize: 22, letterSpacing: 0.5)),
                         ],
                       ),
@@ -613,7 +615,7 @@ class AdminServicesScreen extends ConsumerWidget {
                         decoration: _buildInputDecoration('BRAND COLOR (HEX)', Icons.color_lens_rounded, 'e.g. #F2C94C', isDark),
                       ),
                       const Gap(20),
-                      Center(child: Text('LIVE PREVIEW:', style: TextStyle(color: isDark ? Colors.white30 : Colors.black26, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5))),
+                      Center(child: TranslatedText('LIVE PREVIEW:', style: TextStyle(color: isDark ? Colors.white30 : Colors.black26, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5))),
                       const Gap(12),
                       Builder(builder: (context) {
                         Color previewColor = Colors.blueAccent.withOpacity(0.1);
@@ -645,11 +647,11 @@ class AdminServicesScreen extends ConsumerWidget {
                             AppSnackbar.showSuccess(context, 'Service updated successfully');
                           },
                           style: ElevatedButton.styleFrom(backgroundColor: isDark ? Colors.white : Colors.blueAccent, foregroundColor: isDark ? Colors.blueAccent : Colors.white, elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
-                          child: Text(l10n.saveChanges.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+                          child: TranslatedText(l10n.saveChanges.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
                         ),
                       ),
                       const Gap(12),
-                      TextButton(onPressed: () => Navigator.pop(context), child: Text(l10n.cancel, style: TextStyle(color: isDark ? Colors.white30 : Colors.black26, fontWeight: FontWeight.bold))),
+                      TextButton(onPressed: () => Navigator.pop(context), child: TranslatedText(l10n.cancel, style: TextStyle(color: isDark ? Colors.white30 : Colors.black26, fontWeight: FontWeight.bold))),
                     ],
                   ),
                 ),
@@ -699,7 +701,7 @@ class AdminServicesScreen extends ConsumerWidget {
   }
 
   Widget _buildEmptyState(bool isDark) {
-    return Center(child: Text('No services found', style: TextStyle(color: (isDark ? Colors.white : Colors.black).withOpacity(0.1))));
+    return Center(child: TranslatedText('No services found', style: TextStyle(color: (isDark ? Colors.white : Colors.black).withOpacity(0.1))));
   }
 
   void _showCreateDialog(BuildContext context, WidgetRef ref, bool isDark, AppLocalizations l10n) {
@@ -738,7 +740,7 @@ class AdminServicesScreen extends ConsumerWidget {
                         children: [
                           Container(padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: Colors.greenAccent.withOpacity(0.1), shape: BoxShape.circle), child: const Icon(Icons.add_business_rounded, color: Colors.greenAccent, size: 28)),
                           const Gap(16),
-                          Text(l10n.addService, style: TextStyle(color: isDark ? Colors.white : Colors.black, fontWeight: FontWeight.w900, fontSize: 22, letterSpacing: 0.5)),
+                          TranslatedText(l10n.addService, style: TextStyle(color: isDark ? Colors.white : Colors.black, fontWeight: FontWeight.w900, fontSize: 22, letterSpacing: 0.5)),
                         ],
                       ),
                       const Gap(32),
@@ -761,10 +763,10 @@ class AdminServicesScreen extends ConsumerWidget {
                       const Gap(24),
                       TextFormField(controller: colorController, onChanged: (_) => _onChanged(), style: TextStyle(color: isDark ? Colors.white : Colors.black, fontSize: 15), decoration: _buildInputDecoration('BRAND COLOR (HEX)', Icons.color_lens_rounded, 'e.g. #F2C94C', isDark)),
                       const Gap(24),
-                      SwitchListTile(title: Text('${l10n.popular} Service?', style: TextStyle(color: isDark ? Colors.white70 : Colors.black87, fontSize: 14, fontWeight: FontWeight.bold)), subtitle: Text('Featured on home screen', style: TextStyle(color: isDark ? Colors.white30 : Colors.black26, fontSize: 11)), value: isPopular, activeColor: Colors.orangeAccent, onChanged: (val) => setState(() => isPopular = val)),
-                      if (!isPopular) ...[const Gap(16), Text('PARENT SERVICE (REQUIRED)', style: TextStyle(color: isDark ? Colors.white60 : Colors.black54, fontSize: 12)), const Gap(8), Container(padding: const EdgeInsets.symmetric(horizontal: 16), decoration: BoxDecoration(color: (isDark ? Colors.white : Colors.black).withOpacity(0.05), borderRadius: BorderRadius.circular(16), border: Border.all(color: (isDark ? Colors.white : Colors.black).withOpacity(0.1))), child: DropdownButtonHideUnderline(child: DropdownButton<String>(value: selectedParentId, dropdownColor: isDark ? const Color(0xFF0D47A1) : Colors.white, hint: Text(popularServices.isEmpty ? 'No popular services available' : 'Select a parent category', style: TextStyle(color: isDark ? Colors.white24 : Colors.black26, fontSize: 13)), isExpanded: true, icon: Icon(Icons.keyboard_arrow_down, color: isDark ? Colors.white38 : Colors.black38), items: popularServices.map((s) => DropdownMenuItem(value: s.id, child: Text(s.title, style: TextStyle(color: isDark ? Colors.white : Colors.black)))).toList(), onChanged: popularServices.isEmpty ? null : (val) => setState(() => selectedParentId = val))))],
+                      SwitchListTile(title: TranslatedText('${l10n.popular} Service?', style: TextStyle(color: isDark ? Colors.white70 : Colors.black87, fontSize: 14, fontWeight: FontWeight.bold)), subtitle: TranslatedText('Featured on home screen', style: TextStyle(color: isDark ? Colors.white30 : Colors.black26, fontSize: 11)), value: isPopular, activeColor: Colors.orangeAccent, onChanged: (val) => setState(() => isPopular = val)),
+                      if (!isPopular) ...[const Gap(16), TranslatedText('PARENT SERVICE (REQUIRED)', style: TextStyle(color: isDark ? Colors.white60 : Colors.black54, fontSize: 12)), const Gap(8), Container(padding: const EdgeInsets.symmetric(horizontal: 16), decoration: BoxDecoration(color: (isDark ? Colors.white : Colors.black).withOpacity(0.05), borderRadius: BorderRadius.circular(16), border: Border.all(color: (isDark ? Colors.white : Colors.black).withOpacity(0.1))), child: DropdownButtonHideUnderline(child: DropdownButton<String>(value: selectedParentId, dropdownColor: isDark ? const Color(0xFF0D47A1) : Colors.white, hint: TranslatedText(popularServices.isEmpty ? 'No popular services available' : 'Select a parent category', style: TextStyle(color: isDark ? Colors.white24 : Colors.black26, fontSize: 13)), isExpanded: true, icon: Icon(Icons.keyboard_arrow_down, color: isDark ? Colors.white38 : Colors.black38), items: popularServices.map((s) => DropdownMenuItem(value: s.id, child: TranslatedText(s.title, style: TextStyle(color: isDark ? Colors.white : Colors.black)))).toList(), onChanged: popularServices.isEmpty ? null : (val) => setState(() => selectedParentId = val))))],
                       const Gap(20),
-                      Center(child: Text('PREVIEW:', style: TextStyle(color: isDark ? Colors.white30 : Colors.black26, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5))),
+                      Center(child: TranslatedText('PREVIEW:', style: TextStyle(color: isDark ? Colors.white30 : Colors.black26, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5))),
                       const Gap(12),
                       Builder(builder: (context) {
                         Color previewColor = Colors.blueAccent.withOpacity(0.1);
@@ -788,9 +790,9 @@ class AdminServicesScreen extends ConsumerWidget {
                         ref.read(adminServicesProvider.notifier).createService(data, isPopular: isPopular);
                         Navigator.pop(context);
                         AppSnackbar.showSuccess(context, 'Service created successfully');
-                      }, style: ElevatedButton.styleFrom(backgroundColor: isDark ? Colors.white : Colors.blueAccent, foregroundColor: isDark ? Colors.blueAccent : Colors.white, elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))), child: Text(l10n.createService.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)))),
+                      }, style: ElevatedButton.styleFrom(backgroundColor: isDark ? Colors.white : Colors.blueAccent, foregroundColor: isDark ? Colors.blueAccent : Colors.white, elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))), child: TranslatedText(l10n.createService.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)))),
                       const Gap(12),
-                      TextButton(onPressed: () => Navigator.pop(context), child: Text(l10n.cancel, style: TextStyle(color: isDark ? Colors.white30 : Colors.black26, fontWeight: FontWeight.bold))),
+                      TextButton(onPressed: () => Navigator.pop(context), child: TranslatedText(l10n.cancel, style: TextStyle(color: isDark ? Colors.white30 : Colors.black26, fontWeight: FontWeight.bold))),
                     ],
                   ),
                 ),

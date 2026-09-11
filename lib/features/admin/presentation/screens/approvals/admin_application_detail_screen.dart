@@ -8,6 +8,8 @@ import 'package:fixit/features/admin/domain/models/admin_models.dart';
 import 'package:fixit/shared/utils/snackbar_utils.dart';
 import 'package:fixit/l10n/app_localizations.dart';
 import 'package:fixit/core/utils/service_translation_helper.dart';
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
+import 'package:fixit/core/services/translation_provider.dart';
 import 'package:intl/intl.dart';
 
 final applicationDetailProvider = FutureProvider.family<TechApplication, String>((ref, id) {
@@ -30,7 +32,7 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
       body: appAsync.when(
         data: (app) => _buildContent(context, ref, app, isDark, textColor, l10n),
         loading: () => Center(child: CircularProgressIndicator(color: isDark ? Colors.white : Colors.blueAccent)),
-        error: (e, _) => Center(child: Text(l10n.error(e.toString()), style: TextStyle(color: textColor))),
+        error: (e, _) => Center(child: TranslatedText(l10n.error(e.toString()), style: TextStyle(color: textColor))),
       ),
     );
   }
@@ -56,7 +58,7 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(24, 32, 24, 150), // Tăng padding bottom để tránh đè nút
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
-                  _buildSectionTitle(l10n.systemMode, isDark, textColor), // Dùng systemMode làm THÔNG TIN CƠ BẢN (tạm thời nếu ko có key khớp)
+                  _buildSectionTitle('BASIC INFORMATION', isDark, textColor),
                   const Gap(16),
                   _buildInfoCard([
                     _buildInfoRow(Icons.person_rounded, l10n.fullName, app.fullName, isDark, textColor),
@@ -65,14 +67,14 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
                     const Divider(height: 32, color: Colors.white10),
                     _buildInfoRow(Icons.history_edu_rounded, l10n.experience, app.experience.replaceAll('năm', l10n.years), isDark, textColor),
                     const Divider(height: 32, color: Colors.white10),
-                    _buildInfoRow(Icons.calendar_today_rounded, 'Ngày đăng ký', DateFormat('dd MMMM, yyyy').format(app.createdAt), isDark, textColor),
+                    _buildInfoRow(Icons.calendar_today_rounded, 'Registration Date', DateFormat('dd MMMM, yyyy').format(app.createdAt), isDark, textColor),
                   ], isDark, textColor),
                   const Gap(40),
                   
-                  _buildSectionTitle('CHI TIẾT CHUYÊN MÔN', isDark, textColor),
+                  _buildSectionTitle('PROFESSIONAL DETAILS', isDark, textColor),
                   const Gap(16),
                   _buildInfoCard([
-                    _buildInfoRow(Icons.business_rounded, 'Tên doanh nghiệp', app.businessName ?? 'N/A', isDark, textColor),
+                    _buildInfoRow(Icons.business_rounded, 'Business Name', app.businessName ?? 'N/A', isDark, textColor),
                     const Divider(height: 32, color: Colors.white10),
                     _buildInfoRow(Icons.location_on_rounded, l10n.serviceArea, app.businessAddress ?? 'N/A', isDark, textColor),
                     const Divider(height: 32, color: Colors.white10),
@@ -84,7 +86,7 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
                       app.workSchedule == 'weekendsOnly' ? l10n.weekendsOnly : (app.workSchedule ?? 'N/A'), 
                       isDark, textColor),
                     const Divider(height: 32, color: Colors.white10),
-                    _buildInfoRow(Icons.payments_rounded, l10n.hourlyRate, '${NumberFormat('#,###').format(app.hourlyRate)} VND/giờ', isDark, textColor),
+                    _buildInfoRow(Icons.payments_rounded, l10n.hourlyRate, '${NumberFormat('#,###').format(app.hourlyRate)} VND/hour', isDark, textColor),
                   ], isDark, textColor),
                   const Gap(40),
 
@@ -96,9 +98,9 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
                   const Gap(16),
                   Row(
                     children: [
-                      Expanded(child: _buildIdCardPreview('MẶT TRƯỚC', app.identityCardFront, isDark, textColor)),
+                      Expanded(child: _buildIdCardPreview('FRONT SIDE', app.identityCardFront, isDark, textColor)),
                       const Gap(16),
-                      Expanded(child: _buildIdCardPreview('MẶT SAU', app.identityCardBack, isDark, textColor)),
+                      Expanded(child: _buildIdCardPreview('BACK SIDE', app.identityCardBack, isDark, textColor)),
                     ],
                   ),
                   const Gap(40),
@@ -106,12 +108,12 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
                   _buildSectionTitle(l10n.aboutMe.toUpperCase(), isDark, textColor),
                   const Gap(16),
                   _buildInfoCard([
-                    Text(app.additionalInfo ?? 'Không có thông tin bổ sung.', 
+                    TranslatedText(app.additionalInfo ?? 'No additional information.', 
                       style: TextStyle(color: textColor, height: 1.5)),
                   ], isDark, textColor),
                   const Gap(40),
 
-                  _buildSectionTitle('CHỨNG CHỈ & TÀI LIỆU', isDark, textColor),
+                  _buildSectionTitle('CERTIFICATES & DOCUMENTS', isDark, textColor),
                   const Gap(16),
                   _buildDocumentsGrid(app.documents, isDark, textColor),
                 ]),
@@ -178,7 +180,7 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
             ),
           ],
         ),
-        title: Text(app.fullName.toUpperCase(), 
+        title: TranslatedText(app.fullName.toUpperCase(), 
           style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16, color: Colors.white, letterSpacing: 1)),
         centerTitle: true,
       ),
@@ -186,7 +188,7 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
   }
 
   Widget _buildSectionTitle(String title, bool isDark, Color textColor) {
-    return Text(
+    return TranslatedText(
       title,
       style: TextStyle(color: textColor.withValues(alpha: 0.3), fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 10),
     );
@@ -196,7 +198,7 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(color: textColor.withValues(alpha: 0.3), fontWeight: FontWeight.bold, fontSize: 10)),
+        TranslatedText(label, style: TextStyle(color: textColor.withValues(alpha: 0.3), fontWeight: FontWeight.bold, fontSize: 10)),
         const Gap(8),
         Container(
           height: 120,
@@ -231,8 +233,8 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
           height: 48,
         ),
         const Gap(8),
-        const Text(
-          'CHƯA CÓ ẢNH',
+        const TranslatedText(
+          'NO PHOTO',
           style: TextStyle(
             color: Colors.white24,
             fontSize: 10,
@@ -273,9 +275,9 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: TextStyle(color: textColor.withValues(alpha: 0.4), fontSize: 11, fontWeight: FontWeight.w500)),
+              TranslatedText(label, style: TextStyle(color: textColor.withValues(alpha: 0.4), fontSize: 11, fontWeight: FontWeight.w500)),
               const Gap(2),
-              Text(value, style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.w800, letterSpacing: -0.2)),
+              TranslatedText(value, style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.w800, letterSpacing: -0.2)),
             ],
           ),
         ),
@@ -297,7 +299,7 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
           children: [
             Icon(Icons.folder_off_rounded, color: textColor.withValues(alpha: 0.1), size: 48),
             const Gap(12),
-            Text('Không có tài liệu đính kèm', style: TextStyle(color: textColor.withValues(alpha: 0.2), fontWeight: FontWeight.bold, fontSize: 13)),
+            TranslatedText('No documents attached', style: TextStyle(color: textColor.withValues(alpha: 0.2), fontWeight: FontWeight.bold, fontSize: 13)),
           ],
         ),
       );
@@ -357,7 +359,7 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
                   elevation: 0,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: const BorderSide(color: Color(0xFFFF5252), width: 1.5)),
                 ),
-                child: Text(l10n.rejected.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
+                child: TranslatedText(l10n.rejected.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
               ),
             ),
           ),
@@ -374,7 +376,7 @@ class AdminApplicationDetailScreen extends ConsumerWidget {
                   shadowColor: const Color(0xFF00E676).withValues(alpha: 0.3),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                 ),
-                child: Text(l10n.approved.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
+                child: TranslatedText(l10n.approved.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
               ),
             ),
           ),

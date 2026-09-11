@@ -22,7 +22,7 @@ final localeNotifierProvider =
 );
 
 typedef _$LocaleNotifier = AutoDisposeNotifier<Locale>;
-String _$themeModeNotifierHash() => r'8f8a2a4c11c9660822551e42dd7e7f460bc410ce';
+String _$themeModeNotifierHash() => r'fa2e70d625540dded8b970ded48a8e4b700966ee';
 
 /// See also [ThemeModeNotifier].
 @ProviderFor(ThemeModeNotifier)

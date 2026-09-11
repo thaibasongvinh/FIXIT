@@ -4,10 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:fixit/shared/models/user_model.dart';
 import 'package:fixit/features/auth/presentation/providers/auth_provider.dart';
+import 'package:fixit/core/constants/languages.dart';
 import 'package:fixit/core/config/locale_provider.dart';
 import 'package:fixit/l10n/app_localizations.dart';
+import 'package:fixit/shared/widgets/typography/translated_text.dart';
 import 'package:fixit/features/profile/presentation/widgets/components/avatar/profile_avatar.dart';
 import 'package:fixit/features/profile/presentation/widgets/components/menu/logout_dialog.dart';
+import 'package:fixit/core/services/translation_provider.dart';
 
 class UserSettingsDrawer extends ConsumerWidget {
   const UserSettingsDrawer({super.key});
@@ -63,10 +66,8 @@ class UserSettingsDrawer extends ConsumerWidget {
                       icon: Icons.palette_outlined,
                       label: l10n.themeMode,
                       value: themeMode == ThemeMode.system 
-                          ? l10n.systemMode
-                          : (themeMode == ThemeMode.light 
-                              ? l10n.lightMode 
-                              : l10n.darkMode),
+                          ? 'SYSTEM' 
+                          : (themeMode == ThemeMode.light ? 'LIGHT MODE' : 'DARK MODE'),
                       onTap: () => _showThemePicker(context, ref, themeMode, l10n, isDark),
                     ),
                     const Gap(12),
@@ -75,7 +76,10 @@ class UserSettingsDrawer extends ConsumerWidget {
                       isDark: isDark,
                       icon: Icons.translate_rounded,
                       label: l10n.language,
-                      value: locale.languageCode == 'vi' ? l10n.vietnamese : l10n.english,
+                      value: supportedLanguages
+                          .firstWhere((l) => l.code == locale.languageCode,
+                              orElse: () => supportedLanguages[0])
+                          .name.toUpperCase(),
                       onTap: () => _showLanguagePicker(context, ref, locale, l10n, isDark),
                     ),
                     
@@ -191,7 +195,7 @@ class UserSettingsDrawer extends ConsumerWidget {
 
 
   Widget _buildSectionHeader(String title) {
-    return Text(title, 
+    return TranslatedText(title, 
       style: TextStyle(color: Colors.blueAccent.withOpacity(0.6), fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 2));
   }
 
@@ -225,9 +229,9 @@ class UserSettingsDrawer extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label, style: TextStyle(color: isDark ? Colors.white70 : Colors.black54, fontSize: 12, fontWeight: FontWeight.w600)),
+                  TranslatedText(label, style: TextStyle(color: isDark ? Colors.white70 : Colors.black54, fontSize: 12, fontWeight: FontWeight.w600)),
                   const Gap(2),
-                  Text(value, style: TextStyle(color: isDark ? Colors.white : Colors.black, fontSize: 14, fontWeight: FontWeight.w900)),
+                  TranslatedText(value, style: TextStyle(color: isDark ? Colors.white : Colors.black, fontSize: 14, fontWeight: FontWeight.w900)),
                 ],
               ),
             ),
@@ -257,9 +261,9 @@ class UserSettingsDrawer extends ConsumerWidget {
                   children: [
                     Icon(item.icon, color: isDark ? Colors.white24 : Colors.black26, size: 18),
                     const Gap(16),
-                    Text(item.label, style: TextStyle(color: isDark ? Colors.white38 : Colors.black38, fontSize: 13)),
+                    TranslatedText(item.label, style: TextStyle(color: isDark ? Colors.white38 : Colors.black38, fontSize: 13)),
                     const Spacer(),
-                    Text(item.value, style: TextStyle(color: isDark ? Colors.white70 : Colors.black87, fontSize: 13, fontWeight: FontWeight.bold)),
+                    TranslatedText(item.value, style: TextStyle(color: isDark ? Colors.white70 : Colors.black87, fontSize: 13, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
@@ -276,16 +280,16 @@ class UserSettingsDrawer extends ConsumerWidget {
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 4),
       leading: Icon(icon, color: isDark ? Colors.white38 : Colors.black38, size: 22),
-      title: Text(label, style: TextStyle(color: isDark ? Colors.white70 : Colors.black87, fontSize: 14, fontWeight: FontWeight.w500)),
+      title: TranslatedText(label, style: TextStyle(color: isDark ? Colors.white70 : Colors.black87, fontSize: 14, fontWeight: FontWeight.w500)),
       trailing: Icon(Icons.arrow_forward_ios_rounded, color: isDark ? Colors.white12 : Colors.black12, size: 14),
     );
   }
 
   void _showThemePicker(BuildContext context, WidgetRef ref, ThemeMode current, AppLocalizations l10n, bool isDark) {
     final Map<ThemeMode, String> themeLabels = {
-      ThemeMode.system: l10n.systemMode,
-      ThemeMode.light: l10n.lightMode,
-      ThemeMode.dark: l10n.darkMode,
+      ThemeMode.system: "SYSTEM",
+      ThemeMode.light: "LIGHT MODE",
+      ThemeMode.dark: "DARK MODE",
     };
 
     showModalBottomSheet(
@@ -298,10 +302,10 @@ class UserSettingsDrawer extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(l10n.selectTheme, style: TextStyle(color: isDark ? Colors.white : Colors.black, fontWeight: FontWeight.w900, fontSize: 16, letterSpacing: 2)),
+            TranslatedText(l10n.selectTheme, style: TextStyle(color: isDark ? Colors.white : Colors.black, fontWeight: FontWeight.w900, fontSize: 16, letterSpacing: 2)),
             const Gap(24),
             ...ThemeMode.values.map((mode) => ListTile(
-              title: Text(themeLabels[mode] ?? mode.name.toUpperCase(), style: TextStyle(color: current == mode ? (isDark ? Colors.white : Colors.blueAccent) : (isDark ? Colors.white38 : Colors.black38), fontWeight: FontWeight.bold)),
+              title: TranslatedText(themeLabels[mode] ?? mode.name.toUpperCase(), style: TextStyle(color: current == mode ? (isDark ? Colors.white : Colors.blueAccent) : (isDark ? Colors.white38 : Colors.black38), fontWeight: FontWeight.bold)),
               trailing: current == mode ? const Icon(Icons.check_circle_rounded, color: Colors.greenAccent) : null,
               onTap: () {
                 ref.read(themeModeNotifierProvider.notifier).setThemeMode(mode);
@@ -321,28 +325,41 @@ class UserSettingsDrawer extends ConsumerWidget {
       backgroundColor: isDark ? const Color(0xFF010A1A) : Colors.white,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
       builder: (modalContext) => Container(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.symmetric(vertical: 24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(l10n.selectLanguage, style: TextStyle(color: isDark ? Colors.white : Colors.black, fontWeight: FontWeight.w900, fontSize: 16, letterSpacing: 2)),
+            TranslatedText(l10n.selectLanguage, style: TextStyle(color: isDark ? Colors.white : Colors.black, fontWeight: FontWeight.w900, fontSize: 16, letterSpacing: 2)),
             const Gap(24),
-            _languageItem(modalContext, ref, l10n.english, const Locale('en'), current.languageCode == 'en', isDark),
-            _languageItem(modalContext, ref, l10n.vietnamese, const Locale('vi'), current.languageCode == 'vi', isDark),
+            Flexible(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: supportedLanguages.length,
+                itemBuilder: (context, index) {
+                  final lang = supportedLanguages[index];
+                  final isSelected = current.languageCode == lang.code;
+
+                  return ListTile(
+                    leading: Text(lang.flag, style: const TextStyle(fontSize: 24)),
+                    title: TranslatedText(
+                      lang.name.toUpperCase(),
+                      style: TextStyle(
+                        color: isDark ? Colors.white : Colors.black,
+                        fontWeight: isSelected ? FontWeight.w900 : FontWeight.w400,
+                      ),
+                    ),
+                    trailing: isSelected ? const Icon(Icons.check, color: Colors.greenAccent) : null,
+                    onTap: () {
+                      ref.read(localeNotifierProvider.notifier).setLocale(Locale(lang.code));
+                      Navigator.pop(context);
+                    },
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _languageItem(BuildContext context, WidgetRef ref, String label, Locale locale, bool isSelected, bool isDark) {
-    return ListTile(
-      title: Text(label, style: TextStyle(color: isSelected ? (isDark ? Colors.white : Colors.blueAccent) : (isDark ? Colors.white38 : Colors.black38), fontWeight: FontWeight.bold)),
-      trailing: isSelected ? const Icon(Icons.check_circle_rounded, color: Colors.greenAccent) : null,
-      onTap: () {
-        ref.read(localeNotifierProvider.notifier).setLocale(locale);
-        Navigator.pop(context);
-      },
     );
   }
 }
